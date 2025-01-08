@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap");
+    </style>
+    <style>
+      .chat-container {
+        width: 100%;
+        background: #ffffff;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .chat-header {
+        background-color: #007bff;
+        color: #fff;
+        text-align: center;
+        padding: 10px;
+        font-size: 1.2em;
+      }
+
+      .chat-messages {
+        flex-grow: 1;
+        padding: 15px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .message {
+        max-width: 80%;
+        padding: 10px 15px;
+        border-radius: 20px;
+        font-size: 0.9em;
+        line-height: 1.4;
+      }
+
+      .message.user {
+        background-color: #007bff;
+        color: #fff;
+        align-self: flex-end;
+      }
+
+      .message.bot {
+        background-color: #f1f1f1;
+        color: #000;
+        align-self: flex-start;
+      }
+
+      .chat-input {
+        display: flex;
+        /* flex-direction: column; */
+        column-gap: 10px;
+        align-items: center;
+        padding: 10px;
+        background: #f9f9f9;
+        border-top: 1px solid #e0e0e0;
+      }
+
+      .chat-input input {
+        flex-grow: 1;
+        padding: 10px;
+        font-size: 1em;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        outline: none;
+        /* margin-bottom: 10px; */
+      }
+
+      .chat-input input:disabled {
+        background-color: #e9ecef;
+        cursor: not-allowed;
+      }
+
+      .chat-input button {
+        padding: 10px 15px;
+        font-size: 1em;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+
+      .chat-input button.reset-btn {
+        background-color: #dc3545;
+        margin-top: 10px;
+      }
+
+      .chat-input button.reset-btn:hover {
+        background-color: #c82333;
+      }
+
+      .chat-input button:disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+      }
+
+      .reset-container {
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .reset-container button {
+        padding: 10px 20px;
+        font-size: 1em;
+        color: #fff;
+        background-color: #dc3545;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+
+      .reset-container button:hover {
+        background-color: #c82333;
+      }
+    </style>
+    <title>Document</title>
+  </head>
+
+  <body x-data="studentOutputApp" class="bg-orange-100">
+    <img
+      style="
+        position: fixed;
+        z-index: -9;
+        opacity: 1;
+        bottom: 0;
+        width: 100vw;
+        opacity: 0.4;
+      "
+      src="../assets/BACKGROUND.png"
+      alt=""
+    />
+
+    <div
+      class="container mx-auto px-6 mb-12 lg:mb-32 gap-6 py-12 mt-8 w-full md:w-4/5"
+      x-data="{toggle: false}"
+    >
+      <p
+        class="text-center text-4xl lg:text-5xl"
+        style="font-family: 'Bricolage Grotesque', sans-serif"
+        x-text="studentData ? `Selamat datang ${studentData.name}!` : 'No data available.'"
+      ></p>
+      <p class="text-2xl mb-10 text-center">mulai kunjungi Taman Penemuan</p>
+      <div class="flex flex-col lg:flex-row w-full gap-4">
+        <div class="w-full lg:w-3/5 flex justify-center gap-4">
+          <!-- cards -->
+          <div
+            class="text-slate-200 group flex h-95 w-1/2 flex-col content-center gap-3 rounded-3xl border-2 border-solid border-black bg-emerald-600 p-3 transition-shadow hover:bg-emerald-800 hover:shadow-2xl hover:shadow-emerald-800"
+          >
+            <div class="h-40 w-52 rounded-2xl pl-3 mx-auto my-6">
+              <svg
+                class="group-hover:animate-spin"
+                width="180"
+                height="180"
+                viewBox="0 0 200 200"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g clip-path="url(#clip0_105_305)">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M0 158.405C46.1571 143.817 56.1862 153.845 41.5975 200C68.5533 153.845 131.447 153.845 158.403 200C143.824 153.845 153.854 143.817 200 158.405C153.854 131.45 153.854 68.5603 200 41.6059C153.854 56.1832 143.824 46.1547 158.403 0C131.447 46.1547 68.5533 46.1547 41.5975 0C56.1862 46.1547 46.1571 56.1832 0 41.6059C46.1571 68.5603 46.1571 131.45 0 158.405ZM100 137C120.435 137 137 120.435 137 100C137 79.5655 120.435 63 100 63C79.5655 63 63 79.5655 63 100C63 120.435 79.5655 137 100 137Z"
+                    fill="url(#paint0_linear_105_305)"
+                  />
+                </g>
+                <defs>
+                  <linearGradient
+                    id="paint0_linear_105_305"
+                    x1="20.5"
+                    y1="16"
+                    x2="100"
+                    y2="200"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="#ACAAFF" />
+                    <stop offset="1" stop-color="#C0E8FF" />
+                  </linearGradient>
+                  <clipPath id="clip0_105_305">
+                    <rect width="200" height="200" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+            <div class="">
+              <p
+                class="font-extrabold transition-all group-hover:text-2xl text-xl"
+              >
+                Taman Penemuan
+              </p>
+              <p class="mb-3">Momen aha akan dimulai di sini, bersiaplah!</p>
+            </div>
+            <a href="discovery.html">
+              <button
+                class="rounded-md bg-black w-full"
+                @click="generateAndSave"
+              >
+                <!-- Previous button -->
+                <span
+                  class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-violet-300 px-3 py-2 text-xl transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0 text-black"
+                >
+                  Kunjungi Taman
+                </span>
+              </button>
+            </a>
+          </div>
+          <div
+            class="text-slate-200 group flex h-95 w-1/2 flex-col content-center gap-3 rounded-3xl border-2 border-solid border-black bg-orange-600 p-3 transition-shadow hover:bg-orange-700 hover:shadow-2xl hover:shadow-orange-600"
+          >
+            <div class="h-40 w-52 rounded-2xl pl-3 mx-auto my-6">
+              <svg
+                class="group-hover:animate-spin"
+                width="180"
+                height="180"
+                viewBox="0 0 200 200"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g clip-path="url(#clip0_238_1331)">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M146.371 34.5888C147.629 31.5563 148.272 28.3046 148.265 25.0218C148.267 20.0831 146.806 15.2545 144.066 11.1455C141.326 7.03648 137.431 3.83135 132.871 1.9347C128.311 0.038053 123.291 -0.465076 118.445 0.488832C113.6 1.44274 109.145 3.81092 105.644 7.29439L100.004 12.5471L94.4021 7.31163C89.7108 2.62604 83.3503 -0.00403591 76.7198 4.64873e-06C70.0894 0.00404521 63.7321 2.64187 59.0465 7.33318C54.3609 12.0245 51.7308 18.385 51.7348 25.0155C51.7389 31.6459 54.3767 38.0032 59.068 42.6888L97.5477 81.7374C97.8685 82.0631 98.2508 82.3217 98.6725 82.4983C99.0941 82.6748 99.5467 82.7658 100.004 82.7658C100.461 82.7658 100.914 82.6748 101.335 82.4983C101.757 82.3217 102.139 82.0631 102.46 81.7374L140.94 42.6888C143.268 40.3744 145.114 37.6213 146.371 34.5888ZM53.6286 165.411C52.3712 168.444 51.7276 171.695 51.7349 174.978C51.7327 179.917 53.1938 184.746 55.9336 188.855C58.6735 192.964 62.5693 196.169 67.1293 198.065C71.6892 199.962 76.7089 200.465 81.5546 199.511C86.4003 198.557 90.8547 196.189 94.3556 192.706L99.9961 187.453L105.598 192.688C110.289 197.374 116.65 200.004 123.28 200C129.911 199.996 136.268 197.358 140.954 192.667C145.639 187.976 148.269 181.615 148.265 174.985C148.261 168.354 145.623 161.997 140.932 157.311L102.452 118.263C102.132 117.937 101.749 117.678 101.327 117.502C100.906 117.325 100.453 117.234 99.9961 117.234C99.539 117.234 99.0864 117.325 98.6647 117.502C98.2431 117.678 97.8607 117.937 97.54 118.263L59.0603 157.311C56.7321 159.626 54.8859 162.379 53.6286 165.411ZM174.978 148.266C171.695 148.273 168.444 147.629 165.411 146.372C162.379 145.115 159.626 143.268 157.311 140.94L118.263 102.461C117.937 102.14 117.678 101.757 117.502 101.336C117.325 100.914 117.234 100.462 117.234 100.004C117.234 99.5473 117.325 99.0947 117.502 98.6731C117.678 98.2514 117.937 97.869 118.263 97.5483L157.311 59.0686C161.997 54.3773 168.354 51.7394 174.985 51.7354C181.615 51.7314 187.976 54.3614 192.667 59.047C197.358 63.7326 199.996 70.0899 200 76.7204C200.004 83.3509 197.374 89.7114 192.688 94.4027L187.453 100.004L192.706 105.645C196.189 109.146 198.557 113.6 199.511 118.446C200.465 123.292 199.962 128.311 198.065 132.871C196.169 137.431 192.964 141.327 188.855 144.067C184.746 146.807 179.917 148.268 174.978 148.266ZM34.5888 53.628C31.5563 52.3706 28.3046 51.727 25.0218 51.7343C20.0831 51.7321 15.2544 53.1932 11.1455 55.933C7.03647 58.6729 3.83134 62.5687 1.9347 67.1287C0.0380524 71.6887 -0.465076 76.7083 0.488831 81.554C1.44274 86.3997 3.81091 90.8542 7.29439 94.355L12.5471 99.9956L7.31163 105.597C2.62603 110.289 -0.00403599 116.649 4.64892e-06 123.28C0.00404529 129.91 2.64186 136.267 7.33317 140.953C12.0245 145.639 18.385 148.269 25.0155 148.265C31.6459 148.261 38.0032 145.623 42.6888 140.931L81.7373 102.452C82.063 102.131 82.3217 101.749 82.4982 101.327C82.6748 100.905 82.7657 100.453 82.7657 99.9955C82.7657 99.5384 82.6748 99.0858 82.4982 98.6642C82.3217 98.2425 82.063 97.8602 81.7373 97.5394L42.6888 59.0597C40.3744 56.7315 37.6213 54.8853 34.5888 53.628Z"
+                    fill="url(#paint0_linear_238_1331)"
+                  />
+                </g>
+                <defs>
+                  <linearGradient
+                    id="paint0_linear_238_1331"
+                    x1="177"
+                    y1="-9.23648e-06"
+                    x2="39.5"
+                    y2="152.5"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="#B0B9FF" />
+                    <stop offset="1" stop-color="#E7E9FF" />
+                  </linearGradient>
+                  <clipPath id="clip0_238_1331">
+                    <rect width="200" height="200" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+            <div class="">
+              <p
+                class="font-extrabold transition-all group-hover:text-2xl text-xl"
+              >
+                Taman Eksplorasi
+              </p>
+              <p class="mb-3">Lihat semua kemungkinan tinggi segitiga!</p>
+            </div>
+            <a href="exploration.html">
+              <button
+                class="rounded-md bg-black w-full"
+                @click="generateAndSave"
+              >
+                <!-- Previous button -->
+                <span
+                  class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-violet-300 px-3 py-2 text-xl transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0 text-black"
+                >
+                  Kunjungi Taman
+                </span>
+              </button>
+            </a>
+          </div>
+        </div>
+        <div class="w-full lg:w-2/5 flex flex-col gap-6">
+          <a
+            href="multiple.html"
+            target="_blank"
+            class="relative group w-full border-2 border-black bg-blue-300 hover:bg-white h-1/2 rounded-xl p-6 content-center transition-all text-violet-900"
+          >
+            <img
+              class="absolute h-full top-0 right-0"
+              src="../assets/puzzle-ezgif.com-gif-maker.gif"
+              alt=""
+            />
+            <p
+              class="font-extrabold group-hover:text-4xl text-3xl text-left transition-all"
+            >
+              Tantangan Lumi
+            </p>
+          </a>
+          <a
+            href="catatan.html"
+            target="_blank"
+            class="overflow-hidden relative font-extrabold group w-full border-2 border-black bg-cyan-300 hover:bg-white h-1/2 rounded-xl p-6 content-center transition-all text-violet-900"
+          >
+            <img
+              class="absolute h-full top-0 right-0"
+              src="../assets/computer-ezgif.com-crop.gif"
+              alt=""
+            />
+            <p class="group-hover:text-4xl text-3xl text-left transition-all">
+              Catatan Lumi
+            </p>
+          </a>
+        </div>
+      </div>
+
+      <div
+        x-show="toggle"
+        class="chat-container absolute bg-slate-200/80 inset-0 flex p-10"
+      >
+        <div class="m-auto bg-white rounded-lg shadow-lg">
+          <div class="relative chat-header flex justify-center">
+            <div
+              class="absolute right-2 top-0 right-0 h-full"
+              @click="toggle=false"
+            >
+              <!-- component -->
+              <svg
+                class="h-full w-6 hover:fill-orange-500"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </div>
+            <p class="justify-center">Lumi mau tahu tingkat pemahamanmu!</p>
+          </div>
+          <div id="response" class="chat-messages">
+            <div
+              class="message bot"
+              x-text="`Ceritakan apa yang sudah ${studentData.name} pelajari! Aku akan memberikan umpan
+              balik yang menyenangkan untuk membantu ${studentData.name} lebih paham`"
+            ></div>
+          </div>
+          <div id="chatInput" class="chat-input">
+            <input
+              type="text"
+              id="inputText"
+              placeholder="Rangkumanmu..."
+              required
+            />
+            <button id="submitButton">Kirim</button>
+          </div>
+          <div
+            id="resetContainer"
+            class="reset-container"
+            style="display: none"
+          >
+            <button id="resetButton">Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    document.addEventListener("alpine:init", () => {
+      Alpine.data("studentOutputApp", () => ({
+        studentData: null,
+        init() {
+          // Load the data from localStorage
+          const data = JSON.parse(localStorage.getItem("studentData"));
+          this.studentData = data || null;
+        },
+      }));
+    });
+  </script>
+  <script>
+    const inputField = document.getElementById("inputText");
+    const responseContainer = document.getElementById("response");
+    const submitButton = document.getElementById("submitButton");
+    const chatInput = document.getElementById("chatInput");
+    const resetContainer = document.getElementById("resetContainer");
+    const resetButton = document.getElementById("resetButton");
+
+    submitButton.addEventListener("click", async function () {
+      const userMessage = inputField.value.trim();
+      if (!userMessage) return;
+
+      // Add user message to chat
+      const userMessageElement = document.createElement("div");
+      userMessageElement.className = "message user";
+      userMessageElement.textContent = userMessage;
+      responseContainer.appendChild(userMessageElement);
+
+      // Hide input and button
+      chatInput.style.display = "none";
+
+      // Add bot "typing" placeholder
+      const botMessageElement = document.createElement("div");
+      botMessageElement.className = "message bot";
+      botMessageElement.textContent = "Lumi sedang berpikir...";
+      responseContainer.appendChild(botMessageElement);
+
+      // Scroll to the bottom
+      responseContainer.scrollTop = responseContainer.scrollHeight;
+
+      try {
+        const apiKey = "AIzaSyBf-jnhFiKp6c0diEW-npxGCjOg1Sl41Do"; // Replace with your actual API key
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+
+        const requestBody = {
+          contents: [
+            {
+              parts: [
+                {
+                  text: `Kamu akan bertindak sebagai Miko, asisten virtual anak, responmu terbatas pada topik tentang luas segitiga khususnya metode shearing, jika ada request lain, tolong arahkan ke luas segitiga, berikut isi rangkuman anak, hasil:${userMessage},berdasarkan hal tersebut, buatkan umpan balik singkat, tanpa menyapa, jangan menggunakan markdown, di akhir, tambahkan kalimat "Mintalah umpan balik langsung dari guru untuk meningkatkan pemahamanmu!. JIKA ADA ANAK BERTANYA, JANGAN DIBERIKAN JAWABANNYA"`,
+                },
+              ],
+            },
+          ],
+        };
+
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(requestBody),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const responseData = await response.json();
+        const candidates = responseData.candidates || [];
+        const output =
+          candidates.length > 0
+            ? candidates[0].content.parts.map((part) => part.text).join("\n")
+            : "No candidates found in the response.";
+
+        // Update bot message with actual API response
+        botMessageElement.textContent = output;
+      } catch (error) {
+        botMessageElement.textContent = `Error: ${error.message}`;
+      }
+
+      // Show reset button
+      resetContainer.style.display = "flex";
+    });
+
+    resetButton.addEventListener("click", function () {
+      // Clear the chat and reset input
+      responseContainer.innerHTML =
+        '<div class="message bot">Ceritakan apa yang sudah kamu pelajari! Miko akan memberikan umpan balik yang menyenangkan untuk membantu kamu lebih paham</div>';
+      chatInput.style.display = "flex";
+      inputField.value = "";
+      resetContainer.style.display = "none";
+    });
+  </script>
+</html>

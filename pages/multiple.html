@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multiple Choice Math Quiz</title>
+    <script
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+      defer
+    ></script>
+    <script src="https://cdn.geogebra.org/apps/deployggb.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+      } */
+      .question {
+        margin-bottom: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+      .option {
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid #eee;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .option:hover {
+        background-color: #f0f0f0;
+      }
+      .option.selected {
+        background-color: #e0e0e0;
+        border-color: #999;
+      }
+      .option.correct {
+        background-color: #dff0d8;
+        border-color: #3c763d;
+      }
+      .option.incorrect {
+        background-color: #f2dede;
+        border-color: #a94442;
+      }
+      button {
+        margin-right: 10px;
+        padding: 10px 15px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button.reset {
+        background-color: #f44336;
+      }
+      .feedback {
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 5px;
+      }
+      .feedback.correct {
+        color: green;
+        background-color: #e6ffe6;
+      }
+      .feedback.incorrect {
+        color: red;
+        background-color: #ffe6e6;
+      }
+    </style>
+  </head>
+
+  <body class="flex h-screen flex-col gap-6 bg-orange-50">
+    <!-- nav -->
+    <div
+      class="bg-violet-300 border-b-2 border-solid border-black h-14 flex relative py-1"
+    >
+      <!-- <img
+          src="https://picsum.photos/300/100"
+          alt=""
+          class="block w-1/2 mx-auto h-full w-auto"
+        /> -->
+      <div class="absolute flex items-center">
+        <ul class="ml-6 flex gap-2 md:gap-12 transition-all">
+          <li>
+            <a href="../index.html">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="size-10 hover:fill-fuchsia-700 fill-fuchsia-900"
+              >
+                <path
+                  d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z"
+                />
+                <path
+                  d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z"
+                />
+              </svg>
+            </a>
+          </li>
+          <li @click="modalIsOpen = true" type="button">
+            <a href="menu.html">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="size-10 hover:fill-fuchsia-700 fill-fuchsia-900"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <p
+        class="text-fuchsia-900 text-center text-4xl font-medium tracking-wide block w-1/2 mx-auto"
+        style="font-family: 'Bricolage Grotesque', sans-serif"
+        ;
+      >
+        Tantangan Lumi
+      </p>
+    </div>
+
+    <div class="container mx-auto max-w-3xl bg-white" x-data="studentOutputApp">
+      <script>
+        document.addEventListener("alpine:init", () => {
+          Alpine.data("studentOutputApp", () => ({
+            studentData: null,
+            init() {
+              // Load the data from localStorage
+              const data = JSON.parse(localStorage.getItem("studentData"));
+              this.studentData = data || null;
+            },
+          }));
+        });
+      </script>
+
+      <div x-data="quizApp()">
+        <div class="gap-2 mb-4 sticky top-1 flex justify-center gap-4 z-50">
+          <template x-for="(question, index) in questions" :key="index">
+            <button
+              @click="scrollToQuestion(index)"
+              class="px-4 py-2 rounded-md"
+              :class="{
+          'bg-blue-500 text-white': selectedAnswers[index] !== null,
+          'bg-gray-200 text-gray-700': selectedAnswers[index] === null
+        }"
+            >
+              <span x-text="index + 1"></span>
+            </button>
+          </template>
+        </div>
+        <h1
+          class="font-bold mb-4"
+          x-text="`Hai ${studentData.name}, siap mengerjakan tantangan Lumi di bawah? Kerjakan dengan cermat. Selamat mengerjakan ya`"
+        >
+          Uji Kemampuanmu di Sini!
+        </h1>
+
+        <template x-for="(question, index) in questions" :key="index">
+          <div
+            class="question"
+            :class="{ 'border-2 border-black': showUnanswered && !isAnswered(index) }"
+          >
+            <div
+              class="py-1 px-2 rounded-md bg-slate-200 inline font-bold"
+              x-text="'Pertanyaan ' + (index + 1) + ': '"
+              class="question-text"
+            ></div>
+            <br class="mt-4" />
+            <span x-html="question.question"></span>
+
+            <template
+              x-for="(option, optionIndex) in question.options"
+              :key="optionIndex"
+            >
+              <div
+                class="option"
+                :class="{
+                              'selected': selectedAnswers[index] === optionIndex,
+                              'correct': submitted && question.correctAnswer === optionIndex,
+                              'incorrect': submitted && selectedAnswers[index] === optionIndex && question.correctAnswer !== optionIndex
+                          }"
+                @click="selectAnswer(index, optionIndex)"
+              >
+                <span x-html="option"></span>
+              </div>
+            </template>
+
+            <!-- Feedback for each question -->
+            <div
+              x-show="submitted"
+              class="feedback"
+              :class="{
+                          'correct': selectedAnswers[index] === question.correctAnswer,
+                          'incorrect': selectedAnswers[index] !== question.correctAnswer
+                      }"
+            >
+              <div x-html="getFeedback(index)"></div>
+            </div>
+          </div>
+        </template>
+
+        <div style="margin-top: 20px">
+          <button @click="submit" class="mt-4 rounded-md bg-black mb-2 mr-3">
+            <span
+              class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-yellow-500 px-3 py-2 text-base transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
+            >
+              Kirim
+            </span>
+          </button>
+          <button
+            @click="reset"
+            class="mt-4 rounded-md bg-black mb-2"
+            x-show="!submitted"
+          >
+            <span
+              class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-red-500 px-3 py-2 text-base transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
+            >
+              Reset
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Feedback templates -->
+      <template id="feedback-template-0">
+        <p>Untuk menghitung luas segitiga, kita menggunakan rumus:</p>
+        <p>$$ L = \frac{1}{2} \times \text{alas} \times \text{tinggi} $$</p>
+        <p>Dari gambar, kita mengetahui:</p>
+        <ul>
+          <li>Alas segitiga: 8 + 3 = 11</li>
+          <li>Tinggi segitiga: 7</li>
+        </ul>
+        <p>Substitusikan nilai alas dan tinggi ke dalam rumus:</p>
+        <p>$$ L = \frac{1}{2} \times 11 \times 7 $$</p>
+        <p>Hasil perhitungan:</p>
+        <p>$$ L = \frac{1}{2} \times 77 = 38.5 $$</p>
+        <p>Jadi, luas segitiga tersebut adalah <b>38.5 satuan persegi</b>.</p>
+      </template>
+
+      <template id="feedback-template-1">
+        <p>Diketahui:</p>
+        <ul>
+          <li>Alas \( BC = 6 \)</li>
+          <li>Tinggi \( AD = 5.8 \)</li>
+        </ul>
+        <p>Rumus luas segitiga:</p>
+        <p>
+          $$ \text{Luas} = \frac{1}{2} \times \text{alas} \times \text{tinggi}
+          $$
+        </p>
+        <p>Substitusi nilai alas dan tinggi:</p>
+        <p>$$ \text{Luas} = \frac{1}{2} \times 6 \times 5.8 $$</p>
+        <p>Hitung:</p>
+        <p>$$ \text{Luas} = 17.4 \, \text{unit}^2 $$</p>
+        <p>Maka, luas segitiga adalah \( 17.4 \, \text{unit}^2 \).</p>
+      </template>
+
+      <template id="feedback-template-2">
+        <p>Diketahui:</p>
+        <ul>
+          <li>Luas segitiga: \( 42 \, \text{cm}^2 \)</li>
+          <li>Panjang alas: \( 14 \, \text{cm} \)</li>
+        </ul>
+        <p>Rumus luas segitiga adalah:</p>
+        <p>
+          $$ \text{Luas} = \frac{1}{2} \times \text{alas} \times \text{tinggi}
+          $$
+        </p>
+        <p>Substitusi nilai yang diketahui:</p>
+        <p>$$ 42 = \frac{1}{2} \times 14 \times \text{tinggi} $$</p>
+        <p>Selesaikan untuk tinggi:</p>
+        <p>$$ 42 = 7 \times \text{tinggi} $$</p>
+        <p>$$ \text{tinggi} = \frac{42}{7} $$</p>
+        <p>$$ \text{tinggi} = 6 \, \text{cm} $$</p>
+        <p>Jadi, tinggi segitiga tersebut adalah \( 6 \, \text{cm} \).</p>
+      </template>
+
+      <template id="feedback-template-3">
+        <p>
+          Diketahui: <br />
+          Tinggi ketiga segitiga sama-sama \(6\) satuan <br />
+          Luas total \(L_{\text{total}} = 56\) satuan persegi.
+        </p>
+        <p>Karena ketiga segitiga memiliki alas dan tinggi yang sama, maka:</p>
+        <p>
+          \[ \begin{align*} 3L &= 56 \\ 3 \cdot \frac{\text{alas} \cdot
+          \text{tinggi}}{2} &= 56 \\ 3 \cdot \frac{\text{alas} \cdot 6}{2} &= 56
+          \\ 3 \cdot \text{alas} \cdot 3 &= 56 \cdot 2 \\ 3 \cdot \text{alas} &=
+          \frac{56 \cdot 2}{6} \\ 3 \cdot \text{alas} &= \frac{112}{6} \\ 3
+          \cdot \text{alas} &= 18.67 \, \text{satuan}. \end{align*} \]
+        </p>
+        <p>
+          Jadi, panjang total \(3 \cdot \text{alas}\) adalah \(18.67\) satuan.
+        </p>
+      </template>
+      <script>
+        function quizApp() {
+          return {
+            showUnanswered: false,
+            questions: [
+              {
+                question: `<p>Perhatikan gambar di bawah</p>
+                  <br>
+                  <img src="https://www.mathopolis.com/questions/images/7/a/d4cd5b5cb257eb19c6f0563d6038ca2.jpg" alt="Integral Illustration">
+                  <br>
+                  <p>Berapakah luas segitiga di atas?</p>
+                  `,
+                options: ["A. 37.5", "B. 38.5", "C. 49", "D. 84"],
+                correctAnswer: 1,
+              },
+
+              {
+                question: `
+                <p>Perhatikan gambar di bawah</p>
+                <img src="https://www.mathopolis.com/questions/images/6/0/f79b8e02c24b6d28dea085dbc43ac92.gif">
+                <br />
+                
+                <p>Berapakah luas segitiga di atas</p>
+                `,
+                options: [
+                  "\\( 3 \\)",
+                  "\\( 4 \\)",
+                  "\\( 5 \\)",
+                  "\\( \\text{undefined} \\)",
+                ],
+                correctAnswer: 1,
+              },
+              {
+                question:
+                  "Sebuah segitiga mempunyai luas 42 cm2. Jika panjang alas segitiga 14 cm, maka tinggi segitiga tersebut adalah ....",
+                options: ["\\( 8 \\)", "\\( 9 \\)", "\\( 10 \\)", "\\( 11 \\)"],
+                correctAnswer: 2,
+              },
+              {
+                question: `
+                <p>Perhatikan applet di bawah, diketahui tinggi sama dengan 6 satuan dan luas total ketiga segitiga 56 satuan persegi, carilah sisi yang hilang</p>
+                <div id="ggbApplet"></div>
+  
+                <button class="mt-4 rounded-md bg-black mb-2" @click='
+                ggbApplet.evalCommand("SetFixed(J, false)");
+                ggbApplet.setVisible("J", true);
+                ggbApplet.evalCommand("SetFixed(L, false)");
+                ggbApplet.setVisible("L", true);
+                '
+                x-show="studentData.code !== '903'"
+                >
+                <span 
+                  class=" block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-yellow-500 px-3 py-2 text-base transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
+                >
+                  Jadikan interaktif 
+                  </span>
+              </button>
+  
+                `,
+                options: [
+                  "\\( 0 \\)",
+                  "\\( \\frac{1}{2} \\)",
+                  "\\( 1 \\)",
+                  "\\( 2 \\)",
+                ],
+                correctAnswer: 2,
+              },
+            ],
+            selectedAnswers: Array(5).fill(null),
+            submitted: false,
+            score: 0,
+            feedbackMessage: "",
+            selectAnswer(questionIndex, optionIndex) {
+              if (!this.submitted) {
+                this.selectedAnswers[questionIndex] = optionIndex;
+              }
+            },
+            submit() {
+              this.showUnanswered = true; // Enable highlighting of unanswered questions
+              const unansweredQuestions = this.questions.map(
+                (_, index) => !this.isAnswered(index)
+              );
+              if (unansweredQuestions.includes(true)) {
+                alert("Kerjakan semua soal sebelum mengirim.");
+                return;
+              }
+              this.submitted = true;
+              this.calculateScore();
+              this.generateFeedback();
+              MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+            },
+            reset() {
+              this.selectedAnswers = Array(5).fill(null);
+              this.submitted = false;
+              this.score = 0;
+              this.showUnanswered = false; // Reset the unanswered highlighting
+              this.feedbackMessage = "";
+            },
+            calculateScore() {
+              this.score = this.questions.reduce((acc, question, index) => {
+                return (
+                  acc +
+                  (this.selectedAnswers[index] === question.correctAnswer
+                    ? 1
+                    : 0)
+                );
+              }, 0);
+            },
+            generateFeedback() {
+              const percentage = (this.score / this.questions.length) * 100;
+              if (percentage >= 80) {
+                this.feedbackMessage = "Great job! You did excellent!";
+              } else if (percentage >= 60) {
+                this.feedbackMessage =
+                  "Good job! You did well, but there is room for improvement.";
+              } else {
+                this.feedbackMessage =
+                  "Keep practicing! You can do better next time.";
+              }
+            },
+            getFeedback(index) {
+              const template = document.getElementById(
+                `feedback-template-${index}`
+              );
+              return template ? template.innerHTML : "";
+            },
+            isAnswered(index) {
+              return this.selectedAnswers[index] !== null;
+            },
+            scrollToQuestion(index) {
+              const questionElement =
+                document.querySelectorAll(".question")[index];
+              if (questionElement) {
+                questionElement.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }
+            },
+          };
+        }
+      </script>
+      <script>
+        var parameters = {
+          id: "ggbApplet",
+          width: 400,
+          height: 400,
+          showMenuBar: false,
+          showAlgebraInput: false,
+          showToolBar: false,
+          customToolBar:
+            "0 73 62 | 1 501 67 , 5 19 , 72 75 76 | 2 15 45 , 18 65 , 7 37 | 4 3 8 9 , 13 44 , 58 , 47 | 16 51 64 , 70 | 10 34 53 11 , 24  20 22 , 21 23 | 55 56 57 , 12 | 36 46 , 38 49  50 , 71  14  68 | 30 29 54 32 31 33 | 25 17 26 60 52 61 | 40 41 42 , 27 28 35 , 6",
+          showToolBarHelp: true,
+          showResetIcon: false,
+          enableLabelDrags: false,
+          enableShiftDragZoom: false,
+          enableRightClick: false,
+          errorDialogsActive: false,
+          useBrowserForJS: false,
+          allowStyleBar: false,
+          preventFocus: false,
+          showZoomButtons: false,
+          capturingThreshold: 3,
+          // add code here to run when the applet starts
+          appletOnLoad: function (api) {
+            /* api.evalCommand('Segment((1,2),(3,4))');*/
+            ggbApplet.evalCommand("ZoomIn(-1, -4, 9, 6)");
+          },
+          showFullscreenButton: true,
+          scale: 1,
+          disableAutoScale: false,
+          allowUpscale: false,
+          clickToLoad: false,
+          appName: "classic",
+          buttonRounding: 0.7,
+          buttonShadows: false,
+          language: "en",
+          // use this instead of ggbBase64 to load a material from geogebra.org
+          material_id: "tgggkamz",
+          // use this instead of ggbBase64 to load a .ggb file
+          // "filename":"myfile.ggb",
+          // "ggbBase64":"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",
+        };
+        // is3D=is 3D applet using 3D view, AV=Algebra View, SV=Spreadsheet View, CV=CAS View, EV2=Graphics View 2, CP=Construction Protocol, PC=Probability Calculator DA=Data Analysis, FI=Function Inspector, macro=Macros
+        var views = {
+          is3D: 0,
+          AV: 0,
+          SV: 0,
+          CV: 0,
+          EV2: 0,
+          CP: 0,
+          PC: 0,
+          DA: 0,
+          FI: 0,
+          macro: 0,
+        };
+        var applet = new GGBApplet(parameters, "5.0", views);
+        window.onload = function () {
+          applet.inject("ggbApplet");
+        };
+        applet.setPreviewImage(
+          "data:image/gif;base64,R0lGODlhAQABAAAAADs=",
+          "https://www.geogebra.org/images/GeoGebra_loading.png",
+          "https://www.geogebra.org/images/applet_play.png"
+        );
+      </script>
+      <script>
+        MathJax = {
+          tex: {
+            inlineMath: [
+              ["$", "$"],
+              ["\\(", "\\)"],
+            ],
+          },
+        };
+      </script>
+      <script
+        id="MathJax-script"
+        async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+      ></script>
+    </div>
+  </body>
+</html>
