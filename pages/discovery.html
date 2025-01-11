@@ -203,7 +203,7 @@
             <button
               class="rounded-md bg-black"
               onclick="ggbApplet.evalCommand(
-        `ZoomIn(-5, -5, 10, 10)`)"
+        `ZoomIn(-6, -6, 13, 13)`)"
               @click="step+=1;if(step==2){executeCommand(baseChoice)}; if(step==2){ggbApplet.evalCommand(`SetFixed(C'', true)`)}; if(step==3){ggbApplet.evalCommand(`SetFixed(C'', false)`)};if(step==3){ggbApplet.setVisible('j', true)};if(step==3){ggbApplet.setVisible(`a'`, true)};if(step==3){ggbApplet.setVisible(`b'`, true)};if(step==3){ggbApplet.setVisible(`c'`, true)};if(step==3){ggbApplet.setVisible(`C''`, true);}"
               x-show="isSelectTriangle && step<3"
             >
