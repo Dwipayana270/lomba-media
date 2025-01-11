@@ -17,7 +17,7 @@
   </head>
 
   <body
-    x-data="{ step :  1, progress: 0, isSelectTriangle: false, isRotated: false, isParallel: false, isConclusion: false, isMove: false, modalIsOpen:false}"
+    x-data="{ step :  1, progress: 0, isSelectTriangle: true, isRotated: false, isParallel: false, isConclusion: false, isMove: false, modalIsOpen:false}"
   >
     <p x-show="isParallel">ok</p>
     <div class="flex h-screen flex-col gap-6 bg-orange-100">
@@ -111,7 +111,7 @@
               <!-- Previous button -->
               <span
                 @click="if(step==2){executeCommand(baseChoice)}; if(step==1){randomize}; if(step==3){return isConclusion=true}"
-                class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-yellow-500 px-5 py-3 text-2xl transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
+                class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-yellow-500 px-3 py-1 text-xl transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
                 x-text="step === 1 ? 'Acak' : step === 2 ? 'Rotasi' : 'Bandingkan'"
               >
                 acak </span
@@ -174,7 +174,7 @@
         if (step === 1) {
             return !isSelectTriangle 
                 ? 'Mulai dengan menyesuaikan segitigamu' 
-                : 'Segitigamu tampak bagus! saatnya memilih sisi segitiga';
+                : 'Segitigamu sudah siap? saatnya memilih sisi segitiga!';
         } else if (step === 2) {
             return !isRotated 
                 ? 'Segitigamu tampak bagus! saatnya memilih sisi segitiga' 
@@ -206,7 +206,7 @@
               <!-- Previous button -->
               <span
                 x-text="`Langkah ke-${step + 1}`"
-                class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-violet-300 px-3 py-2 text-xl transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
+                class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-violet-300 px-3 py-1 text-xl transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
               >
                 Selanjutnya </span
               ><!-- Add this ! -->
