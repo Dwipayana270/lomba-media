@@ -85,6 +85,21 @@
           class="overflow-hidden relative bg-indigo-100 flex h-1/2 w-full flex-row lg:h-full lg:w-1/2 lg:flex-col border-solid border-2 border-black rounded-3xl"
         >
           <p
+            class="text-xl text-center mt-2 font-bold mb-2 text-violet-800"
+            x-text="(() => {
+        switch (step) {
+            case 1:
+                return 'Gerakkan titik-titik segitiga 🔵';
+            case 2:
+                return `Tekan Rotasi untuk memilih sisi`;
+            case 3:
+                return 'Gerakkan titik biru 🔵';
+            default:
+                return '';
+        }
+    })()"
+          ></p>
+          <p
             class="z-40 top-0 left-0 absolute py-1 px-2 bg-gray-50 rounded-br-lg text-sm"
           >
             GeoGebra Playground
@@ -128,21 +143,6 @@
             x-text="`Langkah ${step} dari 3`"
           ></p>
 
-          <p
-            class="text-base inline mt-2 font-bold"
-            x-text="(() => {
-        switch (step) {
-            case 1:
-                return 'Gerakkan titik-titik segitiga 🔵';
-            case 2:
-                return `Tekan Rotasi untuk memilih sisi`;
-            case 3:
-                return 'Gerakkan titik biru 🔵';
-            default:
-                return '';
-        }
-    })()"
-          ></p>
           <img
             x-show="step ==1 && isSelectTriangle"
             src="../assets/success.gif"
