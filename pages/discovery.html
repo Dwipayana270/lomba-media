@@ -164,7 +164,16 @@
             width="180"
             class="lg:block mx-auto hidden -py-5"
           />
-          <p x-show="isConclusion">Penjelasan Akhir</p>
+          <div x-show="isConclusion">
+            <img
+              class="mx-auto"
+              src="../assets/cavalier-ezgif.com-crop.gif"
+              alt=""
+            />
+            <p class="mt-5 text-center text-2xl md:text-2xl lg:mx-16 lg:mt-2">
+              Tinggi kedua segitiga sama, lihat animasi di atas!
+            </p>
+          </div>
           <p
             class="mt-5 text-center text-2xl md:text-2xl lg:mx-16 lg:mt-2"
             x-text="(() => {
@@ -197,7 +206,7 @@
               class="rounded-md bg-black"
               onclick="ggbApplet.evalCommand(
         `ZoomIn(-3, -3, 7, 7)`)"
-              @click="step+=1; if(step==2){ggbApplet.evalCommand(`SetFixed(C'', true)`)}; if(step==3){ggbApplet.evalCommand(`SetFixed(C'', false)`)};if(step==3){ggbApplet.setVisible('j', true)};"
+              @click="step+=1; if(step==2){ggbApplet.evalCommand(`SetFixed(C'', true)`)}; if(step==3){ggbApplet.evalCommand(`SetFixed(C'', false)`)};if(step==3){ggbApplet.setVisible('j', true)};if(step==3){ggbApplet.setVisible(`a'`, true)};if(step==3){ggbApplet.setVisible(`b'`, true)};if(step==3){ggbApplet.setVisible(`c'`, true)};if(step==3){ggbApplet.setVisible(`C''`, true);}"
               x-show="isSelectTriangle && step<3"
             >
               <!-- Previous button -->
@@ -216,7 +225,7 @@
               <span
                 @click="executeCommand(baseChoice);step=1; isRotated= false; isParallel= false; isConclusion= false"
                 class="underline text-xl text-gray-500 transition-all hover:text-2xl"
-                onclick="ggbApplet.evalCommand('ZoomIn(-40, 0, -30, 10)')"
+                onclick="ggbApplet.evalCommand('ZoomIn(-40, 0, -30, 10)'); ggbApplet.setVisible('j', false); ggbApplet.setVisible(`C''`, false);"
               >
                 Ulangi
               </span>
@@ -381,6 +390,10 @@
           /* api.evalCommand('Segment((1,2),(3,4))');*/
           ggbApplet.evalCommand("ZoomIn(-40, 0, -30, 10)");
           ggbApplet.setVisible("j", false);
+          ggbApplet.setVisible(`a'`, false);
+          ggbApplet.setVisible(`b'`, false);
+          ggbApplet.setVisible(`c'`, false);
+          ggbApplet.setVisible(`C''`, false);
         },
         showFullscreenButton: true,
         scale: 1,
