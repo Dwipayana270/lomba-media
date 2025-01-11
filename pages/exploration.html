@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../scripts/geogebra.js"></script>
-    <script src="../assets/"></script>
+    <script src="../geogebra.js"></script>
+    <script src="data.js"></script>
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
@@ -13,62 +13,74 @@
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap");
     </style>
-    <title>Taman Eksplorasi</title>
+    <title>Taman Penemuan</title>
   </head>
-
-  <body
-    x-data="{ step :  1, progress: 0, isSelectTriangle: false, isRotated: false, isParallel: false, isConclusion: false, isMove: false, modalIsOpen:false}"
-  >
-    <p x-show="isParallel">ok</p>
+  <body x-data="{ step :  1, progress: 0}">
     <div class="flex h-screen flex-col gap-6 bg-orange-100">
-      <!-- nav -->
+      <!-- navbar -->
       <div
-        class="bg-violet-300 border-b-2 border-solid border-black h-14 flex relative py-1"
+        class="bg-violet-300 border-b-2 border-solid border-black h-14 flex relative py-0"
       >
-        <!-- Left-aligned icons -->
-        <div class="absolute flex items-center">
-          <ul class="ml-2 md:ml-6 flex gap-2 md:gap-12 transition-all">
+        <!-- <img
+          src="https://picsum.photos/300/100"
+          alt=""
+          class="block w-1/2 mx-auto h-full w-auto"
+        /> -->
+        <div
+          class="absolute flex items-center bg-amber-500 pr-3 lg:pr-6 b-r-solid border-r-2 border-black py-1 h-full"
+        >
+          <ul class="ml-2 md:ml-4 flex gap-1 md:gap-2 lg:gap-8 transition-all">
             <li>
-              <a href="../index.html">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  class="w-8 h-8 md:w-10 md:h-10 hover:fill-fuchsia-700 fill-fuchsia-900"
-                >
-                  <path
-                    d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z"
-                  />
-                  <path
-                    d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z"
-                  />
-                </svg>
-              </a>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="size-6 md:size-9 hover:fill-fuchsia-700 fill-fuchsia-900"
+              >
+                <path
+                  d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z"
+                />
+                <path
+                  d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z"
+                />
+              </svg>
             </li>
             <li @click="modalIsOpen = true" type="button">
-              <a href="menu.html">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  class="w-8 h-8 md:w-10 md:h-10 hover:fill-fuchsia-700 fill-fuchsia-900"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </a>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="size-6 md:size-9 hover:fill-fuchsia-700 fill-fuchsia-900"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </li>
+            <li>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="size-6 md:size-9 hover:fill-fuchsia-700 fill-fuchsia-900"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M11.078 2.25c-.917 0-1.699.663-1.85 1.567L9.05 4.889c-.02.12-.115.26-.297.348a7.493 7.493 0 0 0-.986.57c-.166.115-.334.126-.45.083L6.3 5.508a1.875 1.875 0 0 0-2.282.819l-.922 1.597a1.875 1.875 0 0 0 .432 2.385l.84.692c.095.078.17.229.154.43a7.598 7.598 0 0 0 0 1.139c.015.2-.059.352-.153.43l-.841.692a1.875 1.875 0 0 0-.432 2.385l.922 1.597a1.875 1.875 0 0 0 2.282.818l1.019-.382c.115-.043.283-.031.45.082.312.214.641.405.985.57.182.088.277.228.297.35l.178 1.071c.151.904.933 1.567 1.85 1.567h1.844c.916 0 1.699-.663 1.85-1.567l.178-1.072c.02-.12.114-.26.297-.349.344-.165.673-.356.985-.57.167-.114.335-.125.45-.082l1.02.382a1.875 1.875 0 0 0 2.28-.819l.923-1.597a1.875 1.875 0 0 0-.432-2.385l-.84-.692c-.095-.078-.17-.229-.154-.43a7.614 7.614 0 0 0 0-1.139c-.016-.2.059-.352.153-.43l.84-.692c.708-.582.891-1.59.433-2.385l-.922-1.597a1.875 1.875 0 0 0-2.282-.818l-1.02.382c-.114.043-.282.031-.449-.083a7.49 7.49 0 0 0-.985-.57c-.183-.087-.277-.227-.297-.348l-.179-1.072a1.875 1.875 0 0 0-1.85-1.567h-1.843ZM12 15.75a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 0 0 0 7.5Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
             </li>
           </ul>
         </div>
-
-        <!-- Centered text and logo -->
         <p
-          class="text-fuchsia-900 text-center text-2xl md:text-4xl font-medium tracking-wide block w-1/2 mx-auto"
+          class="text-fuchsia-900 text-right md:text-center text-xl md:text-2xl lg:text-3xl font-medium tracking-wide md:block w-full md:w-1/2 md:mx-auto"
           style="font-family: 'Bricolage Grotesque', sans-serif"
+          ;
         >
+          Taman Penemuan
           <svg
             class="inline animate-spin"
             style="animation: spin 9s linear infinite"
@@ -78,24 +90,33 @@
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <g clip-path="url(#clip0_238_1331)">
+            <g clip-path="url(#clip0_105_305)">
               <path
                 fill-rule="evenodd"
                 clip-rule="evenodd"
-                d="M146.371 34.5888C147.629 31.5563 148.272 28.3046 148.265 25.0218C148.267 20.0831 146.806 15.2545 144.066 11.1455C141.326 7.03648 137.431 3.83135 132.871 1.9347C128.311 0.038053 123.291 -0.465076 118.445 0.488832C113.6 1.44274 109.145 3.81092 105.644 7.29439L100.004 12.5471L94.4021 7.31163C89.7108 2.62604 83.3503 -0.00403591 76.7198 4.64873e-06C70.0894 0.00404521 63.7321 2.64187 59.0465 7.33318C54.3609 12.0245 51.7308 18.385 51.7348 25.0155C51.7389 31.6459 54.3767 38.0032 59.068 42.6888L97.5477 81.7374C97.8685 82.0631 98.2508 82.3217 98.6725 82.4983C99.0941 82.6748 99.5467 82.7658 100.004 82.7658C100.461 82.7658 100.914 82.6748 101.335 82.4983C101.757 82.3217 102.139 82.0631 102.46 81.7374L140.94 42.6888C143.268 40.3744 145.114 37.6213 146.371 34.5888ZM53.6286 165.411C52.3712 168.444 51.7276 171.695 51.7349 174.978C51.7327 179.917 53.1938 184.746 55.9336 188.855C58.6735 192.964 62.5693 196.169 67.1293 198.065C71.6892 199.962 76.7089 200.465 81.5546 199.511C86.4003 198.557 90.8547 196.189 94.3556 192.706L99.9961 187.453L105.598 192.688C110.289 197.374 116.65 200.004 123.28 200C129.911 199.996 136.268 197.358 140.954 192.667C145.639 187.976 148.269 181.615 148.265 174.985C148.261 168.354 145.623 161.997 140.932 157.311L102.452 118.263C102.132 117.937 101.749 117.678 101.327 117.502C100.906 117.325 100.453 117.234 99.9961 117.234C99.539 117.234 99.0864 117.325 98.6647 117.502C98.2431 117.678 97.8607 117.937 97.54 118.263L59.0603 157.311C56.7321 159.626 54.8859 162.379 53.6286 165.411ZM174.978 148.266C171.695 148.273 168.444 147.629 165.411 146.372C162.379 145.115 159.626 143.268 157.311 140.94L118.263 102.461C117.937 102.14 117.678 101.757 117.502 101.336C117.325 100.914 117.234 100.462 117.234 100.004C117.234 99.5473 117.325 99.0947 117.502 98.6731C117.678 98.2514 117.937 97.869 118.263 97.5483L157.311 59.0686C161.997 54.3773 168.354 51.7394 174.985 51.7354C181.615 51.7314 187.976 54.3614 192.667 59.047C197.358 63.7326 199.996 70.0899 200 76.7204C200.004 83.3509 197.374 89.7114 192.688 94.4027L187.453 100.004L192.706 105.645C196.189 109.146 198.557 113.6 199.511 118.446C200.465 123.292 199.962 128.311 198.065 132.871C196.169 137.431 192.964 141.327 188.855 144.067C184.746 146.807 179.917 148.268 174.978 148.266ZM34.5888 53.628C31.5563 52.3706 28.3046 51.727 25.0218 51.7343C20.0831 51.7321 15.2544 53.1932 11.1455 55.933C7.03647 58.6729 3.83134 62.5687 1.9347 67.1287C0.0380524 71.6887 -0.465076 76.7083 0.488831 81.554C1.44274 86.3997 3.81091 90.8542 7.29439 94.355L12.5471 99.9956L7.31163 105.597C2.62603 110.289 -0.00403599 116.649 4.64892e-06 123.28C0.00404529 129.91 2.64186 136.267 7.33317 140.953C12.0245 145.639 18.385 148.269 25.0155 148.265C31.6459 148.261 38.0032 145.623 42.6888 140.931L81.7373 102.452C82.063 102.131 82.3217 101.749 82.4982 101.327C82.6748 100.905 82.7657 100.453 82.7657 99.9955C82.7657 99.5384 82.6748 99.0858 82.4982 98.6642C82.3217 98.2425 82.063 97.8602 81.7373 97.5394L42.6888 59.0597C40.3744 56.7315 37.6213 54.8853 34.5888 53.628Z"
+                d="M0 158.405C46.1571 143.817 56.1862 153.845 41.5975 200C68.5533 153.845 131.447 153.845 158.403 200C143.824 153.845 153.854 143.817 200 158.405C153.854 131.45 153.854 68.5603 200 41.6059C153.854 56.1832 143.824 46.1547 158.403 0C131.447 46.1547 68.5533 46.1547 41.5975 0C56.1862 46.1547 46.1571 56.1832 0 41.6059C46.1571 68.5603 46.1571 131.45 0 158.405ZM100 137C120.435 137 137 120.435 137 100C137 79.5655 120.435 63 100 63C79.5655 63 63 79.5655 63 100C63 120.435 79.5655 137 100 137Z"
                 fill="#701a75"
               />
             </g>
             <defs>
-              <clipPath id="clip0_238_1331">
-                <rect width="200" height="200" fill="white" />
+              <!-- <linearGradient
+              id="paint0_linear_105_305"
+              x1="20.5"
+              y1="16"
+              x2="100"
+              y2="200"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stop-color="#ACAAFF" />
+              <stop offset="1" stop-color="#C0E8FF" />
+            </linearGradient> -->
+              <clipPath id="clip0_105_305">
+                <rect width="200" height="200" fill="black" />
               </clipPath>
             </defs>
           </svg>
-          Taman Eksplorasi
         </p>
       </div>
-
       <!-- area -->
       <div
         class="transparent container mx-auto flex-1 px-6 lg:flex lg:px-16 mb-12 lg:mb-32 gap-6"
@@ -110,221 +131,66 @@
             GeoGebra Playground
           </p>
           <div
-            class="h-full w-1/3 flex-auto lg:h-3/5 lg:w-full p-4 grid place-content-center bg-black"
+            class="h-full w-1/3 flex-auto lg:h-3/5 lg:w-full p-4 grid place-content-center"
           >
             <!-- GeoGebra Applet -->
-            <div
-              @click="isSelectTriangle=true; if(step==3){isMove=true}"
-              class="w-60 h-60 md:h-80 md:w-80 lg:h-96 lg:w-96 relative bg-orange-400"
-            >
+            <div class="w-60 h-60 md:h-80 md:w-80 lg:h-96 lg:w-96 relative">
               <div id="ggbApplet"></div>
             </div>
           </div>
-          <div class="grid flex-1 place-content-center">
-            <div x-show="step==1" class="py-7"></div>
+          <div class="grid flex-1 place-content-center"></div>
+        </div>
+        <!-- right section -->
+        <div
+          class="bg-rose-50 border-solid border-2 border-black rounded-3xl relative h-1/2 w-full px-8 pt-4 lg:h-full lg:w-1/2 mt-6 lg:m-0"
+        >
+          <span class="inline-block px-2 rounded-md bg-orange-300 mt-1"
+            >Instruksi</span
+          >
+          <p class="text-base text-gray-600 inline">Gerakkan titik biru</p>
+          <div
+            class="w-3/4 mx-auto lg:mx-0 h-36 lg:h-60 mt-3 lg:mt-8 rounded-xl"
+          >
+            <p>
+              Bayangkan dua segitiga ini seperti dua irisan roti dengan bentuk
+              berbeda tetapi tinggi sama. Jika dipotong mendatar, setiap lapisan
+              memiliki panjang yang sama. Karena tinggi dan panjang setiap
+              tingkat sama, luas kedua segitiga juga sama.
+            </p>
+            <img class="" src="cavalier-ezgif.com-crop.gif" alt="" />
             <button
+              x-data="{toggle: false}"
+              @click="
+              ggbApplet.evalCommand(`SetConditionToShowObject(f_{2}, ${toggle})`);
+              ggbApplet.evalCommand(`SetConditionToShowObject(e_{1}, ${toggle})`); 
+              ggbApplet.evalCommand(`SetConditionToShowObject(t2, ${toggle} && !(Min(x(E), x(F)) < x(H) < Max(x(E), x(F))))`);  
+              ggbApplet.evalCommand(`SetConditionToShowObject(c, ${toggle} && !(Min(x(E), x(F)) < x(H) < Max(x(E), x(F))))`);  
+              ggbApplet.evalCommand(`SetConditionToShowObject(b, ${toggle} && !(Min(x(E), x(F)) < x(H) < Max(x(E), x(F))))`);  
+              ggbApplet.evalCommand(`SetConditionToShowObject(I, ${toggle} && m < n && !(Min(x(E), x(F)) < x(H) < Max(x(E), x(F))))`);  
+              ggbApplet.evalCommand(`SetConditionToShowObject(J, ${toggle} && m > n && !(Min(x(E), x(F)) < x(H) < Max(x(E), x(F))))`);  
+
+              toggle = !toggle"
+            >
+              Tampilkan segitiga
+            </button>
+            <button
+              x-data="{ toggle :  false}"
               class="rounded-md bg-black"
-              x-show="step!=1"
-              onclick=""
-              @click="isSelectTriangle=true; if(step==2){return isRotated=true}"
+              @click="ggbApplet.setVisible('p', toggle); ggbApplet.setVisible('q', toggle); toggle = !toggle;"
             >
               <!-- Previous button -->
               <span
-                @click="if(step==2){executeCommand(baseChoice)}; if(step==1){randomize}; if(step==3){return isConclusion=true}"
-                class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-yellow-500 px-5 py-3 text-xl transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
-                x-text="step === 1 ? 'Acak' : step === 2 ? 'Rotasi' : 'Bandingkan'"
+                @click=""
+                class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-yellow-500 px-5 py-3 text-2xl transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
+                x-text="!toggle? '🫣 Sembunyikan Garis Bantu': '👀 Tampilkan garis bantu'"
               >
                 acak </span
               ><!-- Add this ! -->
             </button>
           </div>
         </div>
-        <!-- right section -->
-        <div
-          class="bg-rose-50 border-solid border-2 border-black rounded-3xl relative h-1/2 w-full px-8 pt-4 lg:h-full lg:w-1/2 mt-6 lg:m-0"
-        >
-          <p
-            class="text-xl font-bold text-blue-500"
-            x-text="`Langkah ${step} dari 3`"
-          ></p>
-
-          <span class="inline-block px-2 rounded-md bg-orange-300 mt-1"
-            >Instruksi</span
-          >
-          <p
-            class="text-base text-gray-600 inline"
-            x-text="(() => {
-        switch (step) {
-            case 1:
-                return 'Gerakkan titik-titik segitiga 🔵';
-            case 2:
-                return `Tekan Rotasi untuk memilih sisi`;
-            case 3:
-                return 'Gerakkan titik biru 🔵';
-            default:
-                return '';
-        }
-    })()"
-          ></p>
-          <img
-            x-show="step ==1 && isSelectTriangle"
-            src="../assets/success.gif"
-            alt=""
-            width="180"
-            class="lg:block mx-auto hidden -py-5"
-          />
-          <img
-            x-show="step == 2 && isRotated"
-            src="../assets/flying.gif"
-            alt=""
-            width="180"
-            class="lg:block mx-auto hidden -py-5"
-          />
-          <img
-            x-show="step ==1 && !isSelectTriangle || step == 2 && !isRotated || step == 3 && !isConclusion"
-            src="../assets/scrolling.gif"
-            alt=""
-            width="180"
-            class="lg:block mx-auto hidden -py-5"
-          />
-          <p x-show="isConclusion">Penjelasan Akhir</p>
-          <p
-            class="mt-5 text-center text-2xl md:text-2xl lg:mx-16 lg:mt-2"
-            x-text="(() => {
-        if (step === 1) {
-            return !isSelectTriangle 
-                ? 'Mulai dengan menyesuaikan segitigamu' 
-                : 'Segitigamu tampak bagus! saatnya memilih sisi segitiga';
-        } else if (step === 2) {
-            return !isRotated 
-                ? 'Segitigamu tampak bagus! saatnya memilih sisi segitiga' 
-                : 'Saatnya menuju langkah terakhir';
-        } else if (step == 3 && !isConclusion) {
-          return 'Tarik titik lalu bandingkan'
-        }
-        else {
-            return '';
-        }
-    })()"
-          >
-            <img
-              x-show="isSelectTriangle "
-              src="../assets/success.gif"
-              alt=""
-              width="90"
-              class="inline lg:hidden"
-            />
-          </p>
-          <div class="mt-6 grid place-content-center">
-            <button
-              class="rounded-md bg-black"
-              onclick="ggbApplet.evalCommand(
-        `ZoomIn(-11 + x(B'), -6, x(B')+1, 6)`)"
-              @click="step+=1; if(step==2){ggbApplet.evalCommand(`SetFixed(C'', true)`)}; if(step==3){ggbApplet.evalCommand(`SetFixed(C'', false)`)};if(step==3){ggbApplet.setVisible('j', true)};"
-              x-show="isSelectTriangle && step<3"
-            >
-              <!-- Previous button -->
-              <span
-                x-text="`Langkah ke-${step + 1}`"
-                class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-violet-300 px-3 py-2 text-xl transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
-              >
-                Selanjutnya </span
-              ><!-- Add this ! -->
-            </button>
-          </div>
-          <div class="absolute bottom-3 left-3 lg:bottom-8 lg:left-8 mx-auto">
-            <button class="">
-              <!-- Previous button -->
-
-              <span
-                @click="executeCommand(baseChoice);step=1;isSelectTriangle= false; isRotated= false; isParallel= false; isConclusion= false"
-                class="underline text-xl text-gray-500 transition-all hover:text-2xl"
-                onclick="ggbApplet.evalCommand('ZoomIn(-40, 0, -30, 10)')"
-              >
-                Ulangi
-              </span>
-            </button>
-          </div>
-          <div class="absolute bottom-3 right-3 lg:bottom-8 lg:right-8 mx-auto">
-            <button class="">
-              <!-- Previous button -->
-
-              <span
-                @click="modalIsOpen = true;"
-                class="text-2xl text-indigo-800 transition-all hover:text-3xl"
-              >
-                Tanya Lumi
-              </span>
-              <!-- Add this ! -->
-              <span class="text-3xl">✨</span>
-            </button>
-          </div>
-        </div>
       </div>
     </div>
-    <!-- tanya lumi -->
-    <div>
-      <div
-        x-cloak
-        x-show="modalIsOpen"
-        x-transition.opacity.duration.200ms
-        x-trap.inert.noscroll="modalIsOpen"
-        @keydown.esc.window="modalIsOpen = false"
-        @click.self="modalIsOpen = false"
-        class="fixed inset-0 z-40 flex items-end justify-center bg-black/20 p-4 pb-8 backdrop-blur-md sm:items-center lg:p-8"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="defaultModalTitle"
-      >
-        <!-- Modal Dialog -->
-        <div
-          x-data="studentData"
-          x-show="modalIsOpen"
-          x-transition:enter="transition ease-out duration-200 delay-100 motion-reduce:transition-opacity"
-          x-transition:enter-start="opacity-0 scale-50"
-          x-transition:enter-end="opacity-100 scale-100"
-          class="flex max-w-lg flex-col gap-4 overflow-hidden rounded-md border border-neutral-300 bg-white text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300"
-        >
-          <!-- Dialog Header -->
-          <p x-text="studentData.name"></p>
-          <div
-            class="flex items-center justify-between border-b border-neutral-300 bg-neutral-50/60 p-4 dark:border-neutral-700 dark:bg-neutral-950/20"
-          >
-            <h3
-              id="defaultModalTitle"
-              class="font-semibold tracking-wide text-neutral-900 dark:text-white"
-            >
-              Special Offer
-            </h3>
-            <button @click="modalIsOpen = false" aria-label="close modal">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-                stroke="currentColor"
-                fill="none"
-                stroke-width="1.4"
-                class="w-5 h-5"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-          <!-- Dialog Body -->
-          <div class="px-4 py-8">
-            <p
-              x-text="generateScaffoldingMessage(studentData.code, studentData.name)"
-            ></p>
-          </div>
-          <!-- Dialog Footer -->
-        </div>
-      </div>
-    </div>
-
     <script>
       // Select the parent container
       const parentElement = document.querySelector(".w-60.h-60");
@@ -375,8 +241,25 @@
         // add code here to run when the applet starts
         appletOnLoad: function (api) {
           /* api.evalCommand('Segment((1,2),(3,4))');*/
-          ggbApplet.evalCommand("ZoomIn(-40, 0, -30, 10)");
-          ggbApplet.setVisible("j", false);
+          ggbApplet.evalCommand("ZoomIn(0, 0, 6, 6)");
+
+          ggbApplet.evalCommand(`SetConditionToShowObject(f_{2}, false)`);
+          ggbApplet.evalCommand(`SetConditionToShowObject(e_{1}, false)`);
+          ggbApplet.evalCommand(
+            `SetConditionToShowObject(t2,false && !(Min(x(E), x(F)) < x(H) < Max(x(E), x(F))))`
+          );
+          ggbApplet.evalCommand(
+            `SetConditionToShowObject(c, false && !(Min(x(E), x(F)) < x(H) < Max(x(E), x(F))))`
+          );
+          ggbApplet.evalCommand(
+            `SetConditionToShowObject(b, false && !(Min(x(E), x(F)) < x(H) < Max(x(E), x(F))))`
+          );
+          ggbApplet.evalCommand(
+            `SetConditionToShowObject(I, false && m < n && !(Min(x(E), x(F)) < x(H) < Max(x(E), x(F))))`
+          );
+          ggbApplet.evalCommand(
+            `SetConditionToShowObject(J, false && m > n && !(Min(x(E), x(F)) < x(H) < Max(x(E), x(F))))`
+          );
         },
         showFullscreenButton: true,
         scale: 1,
@@ -388,7 +271,7 @@
         buttonShadows: false,
         language: "en",
         // use this instead of ggbBase64 to load a material from geogebra.org
-        material_id: "fecq8bpv",
+        material_id: "enqpw9qp",
         // use this instead of ggbBase64 to load a .ggb file
         // "filename":"myfile.ggb",
         // "ggbBase64":"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",
@@ -425,7 +308,7 @@
             command = `
                 a = Segment(B, C)
                 b = Segment(A, C)
-                c = Segment(A, B)
+                c = Segment(A, B) 
                 t1 = Polygon(A, B, C)
                 l1 = {InteriorAngles(t1)}
 
@@ -445,7 +328,7 @@
             command = `
                 a = Segment(B, C)
                 b = Segment(A, C)
-                c = Segment(A, B)
+                c = Segment(A, B) 
                 t1 = Polygon(A, B, C)
                 l1 = {InteriorAngles(t1)}
 
@@ -465,7 +348,7 @@
             command = `
                 a = Segment(B, C)
                 b = Segment(A, C)
-                c = Segment(A, B)
+                c = Segment(A, B) 
                 t1 = Polygon(A, B, C)
                 l1 = {InteriorAngles(t1)}
 
@@ -489,19 +372,24 @@
         ggbApplet.evalCommand(command.trim());
         baseChoice = (baseChoice % 3) + 1;
       }
-      //  randomize
-      function randomize() {
-        // Define the point A with random x-coordinate in the range [-5, -1] and y-coordinate fixed at 1
-        ggbApplet.evalCommand("A = (RandomBetween(-5, -1), 1)");
-
-        // Define point B with a random x-coordinate in the range [1, 5] and the same y-coordinate as A
-        ggbApplet.evalCommand("B = (RandomBetween(1, 5), y(A))");
+    </script>
+    <script>
+      function generateScaffoldingMessage(code, name) {
+        switch (code) {
+          case "901":
+            return `Hai ${name}, easy scaffolding`;
+          case "902":
+            return `Hai ${name}, normal level scaffolding`;
+          case "903":
+            return `Hai ${name}, advanced level scaffolding`;
+          default:
+            return `Hai ${name}, invalid scaffolding code`;
+        }
       }
     </script>
-    <!-- fetch local data -->
     <script>
       document.addEventListener("alpine:init", () => {
-        Alpine.data("studentData", () => ({
+        Alpine.data("studentOutputApp", () => ({
           studentData: null,
           init() {
             // Load the data from localStorage
@@ -510,35 +398,6 @@
           },
         }));
       });
-    </script>
-    <script>
-      function getStudentLevelCode(code) {
-        return (() => {
-          switch (code) {
-            case 901:
-              return "level 1";
-            case 902:
-              return "level 2";
-            case 903:
-              return "level 3";
-            default:
-              return "unknown level";
-          }
-        })();
-      }
-    </script>
-    <script>
-      function generateScaffoldingMessage(code, name) {
-        switch (code) {
-          case "901":
-            return `Hai ${name}, di Taman Penemuan ini, kamu dapat "mengubah" segitiga sebarang menjadi segitiga siku-siku untuk mempermudah perhitungan luas.`;
-          case "903":
-            return `Hai ${name}, Titik biru digeser sepanjang garis sejajar alas, mengubah segitiga sebarang menjadi segitiga siku-siku.`;
-          case "902":
-          default:
-            return `Hai ${name}, jika dua segitiga memiliki alas yang sama panjang dan tinggi yang sama, maka luasnya akan sama. Ini berlaku karena pada setiap ketinggian, panjang irisan horizontal kedua segitiga identik, sehingga luas totalnya juga sama.`;
-        }
-      }
     </script>
   </body>
 </html>
