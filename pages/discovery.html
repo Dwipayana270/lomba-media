@@ -214,7 +214,7 @@
               <!-- Previous button -->
 
               <span
-                @click="executeCommand(baseChoice);step=1;isSelectTriangle= false; isRotated= false; isParallel= false; isConclusion= false"
+                @click="executeCommand(baseChoice);step=1; isRotated= false; isParallel= false; isConclusion= false"
                 class="underline text-xl text-gray-500 transition-all hover:text-2xl"
                 onclick="ggbApplet.evalCommand('ZoomIn(-40, 0, -30, 10)')"
               >
@@ -306,9 +306,6 @@
       // Select the parent container
       const parentElement = document.querySelector(".w-60.h-60");
 
-      // Select the element with id="firstStep"
-      const firstStepElement = document.getElementById("firstStep");
-
       // Get the computed size of the parent container
       const updateParametersSize = () => {
         const { width, height } = parentElement.getBoundingClientRect();
@@ -322,17 +319,47 @@
         app.inject("ggbApplet");
       };
 
+      // Track the previous dimensions to detect genuine resize events
+      let previousWidth = window.innerWidth;
+      let previousHeight = window.innerHeight;
+
+      const handleResize = () => {
+        // Check if the dimensions have genuinely changed
+        const currentWidth = window.innerWidth;
+        const currentHeight = window.innerHeight;
+
+        if (
+          currentWidth === previousWidth &&
+          currentHeight === previousHeight
+        ) {
+          // No genuine resize, likely triggered by mobile scrolling
+          return;
+        }
+
+        // Update the previous dimensions
+        previousWidth = currentWidth;
+        previousHeight = currentHeight;
+
+        // Call the update function
+        updateParametersSize();
+      };
+
       // Ensure the parameters are updated after the DOM is fully loaded
       window.addEventListener("load", updateParametersSize);
 
-      // Optional: Handle window resize to update parameters dynamically
-      window.addEventListener("resize", updateParametersSize);
+      // Attach the modified resize event listener
+      let resizeTimeout;
+      window.addEventListener("resize", () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(handleResize, 100); // Adjust delay as needed
+      });
     </script>
+
     <script>
       var parameters = {
         id: "ggbApplet",
-        width: 600,
-        height: 600,
+        width: 350,
+        height: 350,
         showMenuBar: false,
         showAlgebraInput: false,
         showToolBar: false,
