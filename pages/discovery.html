@@ -81,24 +81,10 @@
         class="transparent container mx-auto flex-1 px-6 lg:flex lg:px-16 mb-12 lg:mb-32 gap-6"
       >
         <!-- left section -->
+
         <div
           class="overflow-hidden relative bg-indigo-100 flex h-1/2 w-full flex-row lg:h-full lg:w-1/2 lg:flex-col border-solid border-2 border-black rounded-3xl"
         >
-          <p
-            class="text-xl text-center mt-2 font-bold mb-2 text-violet-800"
-            x-text="(() => {
-        switch (step) {
-            case 1:
-                return 'Gerakkan titik-titik segitiga 🔵';
-            case 2:
-                return `Tekan Rotasi untuk memilih sisi`;
-            case 3:
-                return 'Gerakkan titik biru 🔵';
-            default:
-                return '';
-        }
-    })()"
-          ></p>
           <p
             class="z-40 top-0 left-0 absolute py-1 px-2 bg-gray-50 rounded-br-lg text-sm"
           >
@@ -116,9 +102,24 @@
             </div>
           </div>
           <div class="grid flex-1 place-content-center">
+            <p
+              class="text-xl font-bold mb-2 text-violet-800"
+              x-text="(() => {
+        switch (step) {
+            case 1:
+                return 'Gerakkan titik-titik segitiga 🔵';
+            case 2:
+                return `Tekan Rotasi untuk memilih sisi`;
+            case 3:
+                return 'Gerakkan titik biru 🔵';
+            default:
+                return '';
+        }
+    })()"
+            ></p>
             <div x-show="step==1" class="py-7"></div>
             <button
-              class="rounded-md bg-black"
+              class="rounded-md bg-black mt-2"
               x-show="step!=1"
               onclick=""
               @click="isSelectTriangle=true; if(step==2){return isRotated=true}"
