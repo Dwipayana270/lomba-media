@@ -85,25 +85,11 @@
         <div
           class="overflow-hidden relative bg-indigo-100 flex h-1/2 w-full flex-row lg:h-full lg:w-1/2 lg:flex-col border-solid border-2 border-black rounded-3xl"
         >
-          <p
-            class="z-40 top-0 left-0 absolute py-1 px-2 bg-gray-50 rounded-br-lg text-sm"
-          >
-            GeoGebra Playground
-          </p>
           <div
             class="h-full w-1/3 flex-auto lg:h-3/5 lg:w-full p-4 grid place-content-center"
           >
-            <!-- GeoGebra Applet -->
-            <div
-              @click="isSelectTriangle=true; if(step==3){isMove=true}"
-              class="w-60 h-60 md:h-80 md:w-80 lg:h-96 lg:w-96 relative"
-            >
-              <div id="ggbApplet"></div>
-            </div>
-          </div>
-          <div class="grid flex-1 place-content-center">
             <p
-              class="text-xl font-bold mb-2 text-violet-800"
+              class="text-md font-bold mb-2 text-violet-800 mt-3 text-center"
               x-text="(() => {
         switch (step) {
             case 1:
@@ -117,6 +103,17 @@
         }
     })()"
             ></p>
+            <div class="">
+              <!-- GeoGebra Applet -->
+              <div
+                @click="isSelectTriangle=true; if(step==3){isMove=true}"
+                class="w-60 h-60 md:h-80 md:w-80 lg:h-96 lg:w-96 relative"
+              >
+                <div id="ggbApplet"></div>
+              </div>
+            </div>
+          </div>
+          <div class="grid flex-1 place-content-center">
             <div x-show="step==1" class="py-7"></div>
             <button
               class="rounded-md bg-black mt-2"
