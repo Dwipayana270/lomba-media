@@ -260,7 +260,7 @@
         x-trap.inert.noscroll="modalIsOpen"
         @keydown.esc.window="modalIsOpen = false"
         @click.self="modalIsOpen = false"
-        class="fixed inset-0 z-40 flex items-end justify-center bg-black/20 p-4 pb-8 backdrop-blur-md sm:items-center lg:p-8"
+        class="fixed inset-0 z-40 flex items-center justify-center bg-black/20 p-4 pb-8 backdrop-blur-md lg:p-8"
         role="dialog"
         aria-modal="true"
         aria-labelledby="defaultModalTitle"
@@ -271,7 +271,7 @@
           x-transition:enter="transition ease-out duration-200 delay-100 motion-reduce:transition-opacity"
           x-transition:enter-start="opacity-0 scale-50"
           x-transition:enter-end="opacity-100 scale-100"
-          class="overflow-hidden relative bg-indigo-100 flex w-full flex-row lg:w-1/2 lg:flex-col border-solid border-2 border-black rounded-3xl z-90"
+          class="overflow-hidden relative bg-indigo-100 flex w-full lg:w-1/2 flex-col border-solid border-2 border-black rounded-3xl z-90"
         >
           <!-- Dialog Header -->
           <div
