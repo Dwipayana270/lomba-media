@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../geogebra.js"></script>
+    <script src="../scripts/geogebra.js"></script>
     <script src="data.js"></script>
     <script
       defer
@@ -13,153 +13,107 @@
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap");
     </style>
-    <title>Taman Penemuan</title>
+    <title>Taman Eksplorasi | Petualangan Lumi</title>
   </head>
   <body x-data="{ step :  1, progress: 0}">
     <div class="flex h-screen flex-col gap-6 bg-orange-100">
-      <!-- navbar -->
+      <!-- nav -->
       <div
-        class="bg-violet-300 border-b-2 border-solid border-black h-14 flex relative py-0"
+        class="bg-violet-300 border-b-2 border-solid border-black flex relative py-2"
       >
         <!-- <img
           src="https://picsum.photos/300/100"
           alt=""
           class="block w-1/2 mx-auto h-full w-auto"
         /> -->
-        <div
-          class="absolute flex items-center bg-amber-500 pr-3 lg:pr-6 b-r-solid border-r-2 border-black py-1 h-full"
-        >
-          <ul class="ml-2 md:ml-4 flex gap-1 md:gap-2 lg:gap-8 transition-all">
+        <div class="absolute flex items-center">
+          <ul class="ml-3 md:ml-6 flex gap-2 md:gap-12 transition-all">
             <li>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="size-6 md:size-9 hover:fill-fuchsia-700 fill-fuchsia-900"
-              >
-                <path
-                  d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z"
-                />
-                <path
-                  d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z"
-                />
-              </svg>
+              <a href="../index.html">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="size-7 md:size-10 hover:fill-fuchsia-700 fill-fuchsia-900"
+                >
+                  <path
+                    d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z"
+                  />
+                  <path
+                    d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z"
+                  />
+                </svg>
+              </a>
             </li>
             <li @click="modalIsOpen = true" type="button">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="size-6 md:size-9 hover:fill-fuchsia-700 fill-fuchsia-900"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </li>
-            <li>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="size-6 md:size-9 hover:fill-fuchsia-700 fill-fuchsia-900"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M11.078 2.25c-.917 0-1.699.663-1.85 1.567L9.05 4.889c-.02.12-.115.26-.297.348a7.493 7.493 0 0 0-.986.57c-.166.115-.334.126-.45.083L6.3 5.508a1.875 1.875 0 0 0-2.282.819l-.922 1.597a1.875 1.875 0 0 0 .432 2.385l.84.692c.095.078.17.229.154.43a7.598 7.598 0 0 0 0 1.139c.015.2-.059.352-.153.43l-.841.692a1.875 1.875 0 0 0-.432 2.385l.922 1.597a1.875 1.875 0 0 0 2.282.818l1.019-.382c.115-.043.283-.031.45.082.312.214.641.405.985.57.182.088.277.228.297.35l.178 1.071c.151.904.933 1.567 1.85 1.567h1.844c.916 0 1.699-.663 1.85-1.567l.178-1.072c.02-.12.114-.26.297-.349.344-.165.673-.356.985-.57.167-.114.335-.125.45-.082l1.02.382a1.875 1.875 0 0 0 2.28-.819l.923-1.597a1.875 1.875 0 0 0-.432-2.385l-.84-.692c-.095-.078-.17-.229-.154-.43a7.614 7.614 0 0 0 0-1.139c-.016-.2.059-.352.153-.43l.84-.692c.708-.582.891-1.59.433-2.385l-.922-1.597a1.875 1.875 0 0 0-2.282-.818l-1.02.382c-.114.043-.282.031-.449-.083a7.49 7.49 0 0 0-.985-.57c-.183-.087-.277-.227-.297-.348l-.179-1.072a1.875 1.875 0 0 0-1.85-1.567h-1.843ZM12 15.75a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 0 0 0 7.5Z"
-                  clip-rule="evenodd"
-                />
-              </svg>
+              <a href="menu.html">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="size-7 md:size-10 hover:fill-fuchsia-700 fill-fuchsia-900"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </a>
             </li>
           </ul>
         </div>
         <p
-          class="text-fuchsia-900 text-right md:text-center text-xl md:text-2xl lg:text-3xl font-medium tracking-wide md:block w-full md:w-1/2 md:mx-auto"
+          class="text-fuchsia-900 text-center text-xl md:text-3xl font-medium tracking-wide block w-1/2 mx-auto"
           style="font-family: 'Bricolage Grotesque', sans-serif"
           ;
         >
-          Taman Penemuan
-          <svg
-            class="inline animate-spin"
-            style="animation: spin 9s linear infinite"
-            width="30"
-            height="30"
-            viewBox="0 0 200 200"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g clip-path="url(#clip0_105_305)">
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M0 158.405C46.1571 143.817 56.1862 153.845 41.5975 200C68.5533 153.845 131.447 153.845 158.403 200C143.824 153.845 153.854 143.817 200 158.405C153.854 131.45 153.854 68.5603 200 41.6059C153.854 56.1832 143.824 46.1547 158.403 0C131.447 46.1547 68.5533 46.1547 41.5975 0C56.1862 46.1547 46.1571 56.1832 0 41.6059C46.1571 68.5603 46.1571 131.45 0 158.405ZM100 137C120.435 137 137 120.435 137 100C137 79.5655 120.435 63 100 63C79.5655 63 63 79.5655 63 100C63 120.435 79.5655 137 100 137Z"
-                fill="#701a75"
-              />
-            </g>
-            <defs>
-              <!-- <linearGradient
-              id="paint0_linear_105_305"
-              x1="20.5"
-              y1="16"
-              x2="100"
-              y2="200"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stop-color="#ACAAFF" />
-              <stop offset="1" stop-color="#C0E8FF" />
-            </linearGradient> -->
-              <clipPath id="clip0_105_305">
-                <rect width="200" height="200" fill="black" />
-              </clipPath>
-            </defs>
-          </svg>
+          Taman Eksplorasi
         </p>
       </div>
+
       <!-- area -->
       <div
+        x-data="studentData"
         class="transparent container mx-auto flex-1 px-6 lg:flex lg:px-16 mb-12 lg:mb-32 gap-6"
       >
         <!-- left section -->
         <div
-          class="overflow-hidden relative bg-indigo-100 flex h-1/2 w-full flex-row lg:h-full lg:w-1/2 lg:flex-col border-solid border-2 border-black rounded-3xl"
+          class="items-center overflow-hidden relative bg-indigo-100 flex h-1/2 w-full flex-row lg:h-full lg:w-1/2 lg:flex-col border-solid border-2 border-black rounded-3xl"
         >
-          <p
-            class="z-40 top-0 left-0 absolute py-1 px-2 bg-gray-50 rounded-br-lg text-sm"
-          >
-            GeoGebra Playground
-          </p>
           <div
-            class="h-full w-1/3 flex-auto lg:h-3/5 lg:w-full p-4 grid place-content-center"
+            class="h-full flex-auto lg:h-3/5 lg:w-full p-4 grid place-content-center"
           >
+            <p class="text-md font-bold mb-2 text-violet-800">
+              Gerakkan titik biru 🔵
+            </p>
             <!-- GeoGebra Applet -->
             <div class="w-60 h-60 md:h-80 md:w-80 lg:h-96 lg:w-96 relative">
               <div id="ggbApplet"></div>
             </div>
           </div>
-          <div class="grid flex-1 place-content-center"></div>
         </div>
+
         <!-- right section -->
         <div
           class="bg-rose-50 border-solid border-2 border-black rounded-3xl relative h-1/2 w-full px-8 pt-4 lg:h-full lg:w-1/2 mt-6 lg:m-0"
         >
-          <span class="inline-block px-2 rounded-md bg-orange-300 mt-1"
-            >Instruksi</span
-          >
-          <p class="text-base text-gray-600 inline">Gerakkan titik biru</p>
+          <p
+            class="text-base mb-2 font-bold"
+            x-text="`Hai ${studentData.name}, bagaimana perasaanmu di Taman Penemuan sebelumnya?`"
+          ></p>
+          <p>
+            Selamat datang di Taman Eksplorasi, di sini kamu bisa melihat semua
+            kemungkinan tinggi segitiga. Cobalah hubungkan hasil penemuanmu di
+            Taman Penemuan dengan eksplorasi di Taman Eksplorasi ini. Gunakan
+            fitur bantuan di bawah
+          </p>
           <div
-            class="w-3/4 mx-auto lg:mx-0 h-36 lg:h-60 mt-3 lg:mt-8 rounded-xl"
+            class="px-16 md:px-6 max-w-96 mx-auto h-36 lg:h-60 mt-3 lg:mt-8 rounded-xl"
           >
-            <p>
-              Bayangkan dua segitiga ini seperti dua irisan roti dengan bentuk
-              berbeda tetapi tinggi sama. Jika dipotong mendatar, setiap lapisan
-              memiliki panjang yang sama. Karena tinggi dan panjang setiap
-              tingkat sama, luas kedua segitiga juga sama.
-            </p>
-            <img class="" src="cavalier-ezgif.com-crop.gif" alt="" />
             <button
-              x-data="{toggle: false}"
+              class="rounded-md bg-black w-full mb-4"
+              x-data="{toggle: true}"
               @click="
               ggbApplet.evalCommand(`SetConditionToShowObject(f_{2}, ${toggle})`);
               ggbApplet.evalCommand(`SetConditionToShowObject(e_{1}, ${toggle})`); 
@@ -171,17 +125,21 @@
 
               toggle = !toggle"
             >
-              Tampilkan segitiga
+              <span
+                class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-violet-100 px-5 py-3 text-xl transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
+                x-text="!toggle? '🫣 segitiga siku-siku': '👀 segitiga siku-siku'"
+              >
+              </span>
             </button>
             <button
               x-data="{ toggle :  false}"
-              class="rounded-md bg-black"
+              class="rounded-md bg-black w-full"
               @click="ggbApplet.setVisible('p', toggle); ggbApplet.setVisible('q', toggle); toggle = !toggle;"
             >
               <!-- Previous button -->
               <span
                 @click=""
-                class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-yellow-500 px-5 py-3 text-2xl transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
+                class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-violet-100 px-5 py-3 text-xl transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
                 x-text="!toggle? '🫣 Sembunyikan Garis Bantu': '👀 Tampilkan garis bantu'"
               >
                 acak </span
@@ -389,7 +347,7 @@
     </script>
     <script>
       document.addEventListener("alpine:init", () => {
-        Alpine.data("studentOutputApp", () => ({
+        Alpine.data("studentData", () => ({
           studentData: null,
           init() {
             // Load the data from localStorage
