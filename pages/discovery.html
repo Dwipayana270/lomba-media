@@ -196,7 +196,7 @@
             <button
               class="rounded-md bg-black"
               onclick="ggbApplet.evalCommand(
-        `ZoomIn(-11 + x(B'), -6, x(B')+1, 6)`)"
+        `ZoomIn(-3, -3, 7, 7)`)"
               @click="step+=1; if(step==2){ggbApplet.evalCommand(`SetFixed(C'', true)`)}; if(step==3){ggbApplet.evalCommand(`SetFixed(C'', false)`)};if(step==3){ggbApplet.setVisible('j', true)};"
               x-show="isSelectTriangle && step<3"
             >
