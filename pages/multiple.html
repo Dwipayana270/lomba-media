@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Multiple Choice Math Quiz</title>
+    <title>Tantangan Lumi | Petualangan Lumi</title>
     <script
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
       defer
@@ -77,7 +77,7 @@
   <body class="flex h-screen flex-col gap-6 bg-orange-50">
     <!-- nav -->
     <div
-      class="bg-violet-300 border-b-2 border-solid border-black h-14 flex relative py-1"
+      class="bg-violet-300 border-b-2 border-solid border-black flex relative py-2"
     >
       <!-- <img
           src="https://picsum.photos/300/100"
@@ -85,14 +85,14 @@
           class="block w-1/2 mx-auto h-full w-auto"
         /> -->
       <div class="absolute flex items-center">
-        <ul class="ml-6 flex gap-2 md:gap-12 transition-all">
+        <ul class="ml-3 md:ml-6 flex gap-2 md:gap-12 transition-all">
           <li>
             <a href="../index.html">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                class="size-10 hover:fill-fuchsia-700 fill-fuchsia-900"
+                class="size-7 md:size-10 hover:fill-fuchsia-700 fill-fuchsia-900"
               >
                 <path
                   d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z"
@@ -109,7 +109,7 @@
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                class="size-10 hover:fill-fuchsia-700 fill-fuchsia-900"
+                class="size-7 md:size-10 hover:fill-fuchsia-700 fill-fuchsia-900"
               >
                 <path
                   fill-rule="evenodd"
@@ -122,7 +122,7 @@
         </ul>
       </div>
       <p
-        class="text-fuchsia-900 text-center text-4xl font-medium tracking-wide block w-1/2 mx-auto"
+        class="text-fuchsia-900 text-center text-xl md:text-3xl font-medium tracking-wide block w-1/2 mx-auto"
         style="font-family: 'Bricolage Grotesque', sans-serif"
         ;
       >
@@ -130,7 +130,10 @@
       </p>
     </div>
 
-    <div class="container mx-auto max-w-3xl bg-white" x-data="studentOutputApp">
+    <div
+      class="container mx-auto max-w-3xl bg-white p-4 rounded-xl"
+      x-data="studentOutputApp"
+    >
       <script>
         document.addEventListener("alpine:init", () => {
           Alpine.data("studentOutputApp", () => ({
@@ -159,11 +162,9 @@
             </button>
           </template>
         </div>
-        <h1
-          class="font-bold mb-4"
-          x-text="`Hai ${studentData.name}, siap mengerjakan tantangan Lumi di bawah? Kerjakan dengan cermat. Selamat mengerjakan ya`"
-        >
-          Uji Kemampuanmu di Sini!
+        <h1 class="font-bold mb-4">
+          Siap mengerjakan tantangan Lumi di bawah? Kerjakan dengan cermat.
+          Selamat mengerjakan ya
         </h1>
 
         <template x-for="(question, index) in questions" :key="index">
@@ -171,13 +172,13 @@
             class="question"
             :class="{ 'border-2 border-black': showUnanswered && !isAnswered(index) }"
           >
-            <div
-              class="py-1 px-2 rounded-md bg-slate-200 inline font-bold"
+            <p
+              class="py-1 px-2 rounded-md bg-slate-200 inline font-bold mb-4"
               x-text="'Pertanyaan ' + (index + 1) + ': '"
               class="question-text"
-            ></div>
-            <br class="mt-4" />
-            <span x-html="question.question"></span>
+            ></p>
+            <p class="text-white">-</p>
+            <span class="mt-4" x-html="question.question"></span>
 
             <template
               x-for="(option, optionIndex) in question.options"
@@ -210,7 +211,7 @@
           </div>
         </template>
 
-        <div style="margin-top: 20px">
+        <div style="margin-top: 20px" class="ml-4">
           <button @click="submit" class="mt-4 rounded-md bg-black mb-2 mr-3">
             <span
               class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-yellow-500 px-3 py-2 text-base transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
@@ -325,7 +326,7 @@
                 <p>Perhatikan gambar di bawah</p>
                 <img src="https://www.mathopolis.com/questions/images/6/0/f79b8e02c24b6d28dea085dbc43ac92.gif">
                 <br />
-                
+
                 <p>Berapakah luas segitiga di atas</p>
                 `,
                 options: [
@@ -337,8 +338,14 @@
                 correctAnswer: 1,
               },
               {
-                question:
-                  "Sebuah segitiga mempunyai luas 42 cm2. Jika panjang alas segitiga 14 cm, maka tinggi segitiga tersebut adalah ....",
+                question: `
+                  <p>
+                  Sebuah segitiga mempunyai luas 42 cm persegi. Jika panjang alas segitiga 14 cm, maka tinggi segitiga tersebut adalah ....
+                  </p>
+                  <p x-show="studentData.code == 901" class="text-violet-800 font-bold">
+                Clue Dari rumus segitiga didapatkan \\( t=\\frac{2L}{a} \\) 
+                    </p>
+                  `,
                 options: ["\\( 8 \\)", "\\( 9 \\)", "\\( 10 \\)", "\\( 11 \\)"],
                 correctAnswer: 2,
               },
@@ -346,22 +353,21 @@
                 question: `
                 <p>Perhatikan applet di bawah, diketahui tinggi sama dengan 6 satuan dan luas total ketiga segitiga 56 satuan persegi, carilah sisi yang hilang</p>
                 <div id="ggbApplet"></div>
-  
+
                 <button class="mt-4 rounded-md bg-black mb-2" @click='
                 ggbApplet.evalCommand("SetFixed(J, false)");
                 ggbApplet.setVisible("J", true);
                 ggbApplet.evalCommand("SetFixed(L, false)");
                 ggbApplet.setVisible("L", true);
                 '
-                x-show="studentData.code !== '903'"
                 >
-                <span 
+                <span
                   class=" block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-yellow-500 px-3 py-2 text-base transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
                 >
-                  Jadikan interaktif 
+                  Jadikan interaktif
                   </span>
               </button>
-  
+
                 `,
                 options: [
                   "\\( 0 \\)",
@@ -441,6 +447,18 @@
                   behavior: "smooth",
                   block: "start",
                 });
+              }
+            },
+            init() {
+              // Remove specific question based on studentData.code
+              const codeToIndexMap = {
+                901: 3,
+                902: 3,
+                903: 0,
+              };
+              const indexToRemove = codeToIndexMap[this.studentData.code];
+              if (indexToRemove !== undefined) {
+                this.questions.splice(indexToRemove, 1);
               }
             },
           };
