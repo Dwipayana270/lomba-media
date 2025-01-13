@@ -28,7 +28,7 @@
       }
     </style>
   </head>
-  <body class="bg-orange-100">
+  <body class="bg-orange-100" x-data="studentData">
     <img
       style="position: fixed; z-index: -9; opacity: 1; bottom: 0; width: 100vw"
       src="assets/ver.png"
@@ -175,6 +175,18 @@
         direction: "alternate",
         duration: 1000,
         delay: (el, i) => 70 * i,
+      });
+    </script>
+    <script>
+      document.addEventListener("alpine:init", () => {
+        Alpine.data("studentOutputApp", () => ({
+          studentData: null,
+          init() {
+            // Load the data from localStorage
+            const data = JSON.parse(localStorage.getItem("studentData"));
+            this.studentData = data || null;
+          },
+        }));
       });
     </script>
   </body>
