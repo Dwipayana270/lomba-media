@@ -124,7 +124,7 @@
               <!-- Previous button -->
               <span
                 @click="if(step==2){executeCommand(baseChoice)}; if(step==1){randomize}; if(step==3){return isConclusion=true}"
-                class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-yellow-500 p-1 text-md transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
+                class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-yellow-500 p-1 text-md md:text-xl transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
                 x-text="step === 1 ? 'Acak' : step === 2 ? 'Rotasi' : 'Bandingkan'"
               >
                 acak </span
