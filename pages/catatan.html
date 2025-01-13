@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luas Segitiga dan Prinsip Cavalieri</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <!-- MathJax Script -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+    <style>
+      /* Custom Background */
+      html {
+        --s: 50px; /* control the size */
+        --c1: #f99eff;
+        --c2: #a861ae;
+        --c3: #fcd6ff;
+
+        --_g: conic-gradient(at 50% 25%, #0000 75%, var(--c1) 0);
+        background: var(--_g), var(--_g) var(--s) var(--s),
+          var(--_g) calc(2 * var(--s)) calc(2 * var(--s)),
+          var(--_g) calc(3 * var(--s)) calc(3 * var(--s)),
+          repeating-linear-gradient(135deg, var(--c2) 0 12.5%, var(--c3) 0 25%);
+        background-size: calc(4 * var(--s)) calc(4 * var(--s));
+        background-attachment: fixed;
+      }
+
+      /* Scroll-based white overlay */
+      body {
+        position: relative;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0); /* Start fully transparent */
+        z-index: -1; /* Place behind content */
+        pointer-events: none; /* Ensure it doesn't block interactions */
+        transition: background 0.3s ease;
+      }
+
+      body.scrolled::before {
+        background: rgba(255, 255, 255, 0.8); /* End with a semi-opaque white */
+      }
+
+      /* Custom Neo-Brutalism Style */
+      .neo-brutalism {
+        border: 2px solid #000;
+        box-shadow: 4px 4px 0px #000;
+        background-color: #f9f9f9;
+      }
+      .neo-brutalism-btn {
+        border: 2px solid #000;
+        box-shadow: 2px 2px 0px #000;
+        background-color: #fff;
+        transition: all 0.2s ease;
+      }
+      .neo-brutalism-btn:hover {
+        box-shadow: 4px 4px 0px #000;
+        transform: translate(-2px, -2px);
+      }
+      .neo-brutalism-btn:active {
+        box-shadow: 1px 1px 0px #000;
+        transform: translate(1px, 1px);
+      }
+      /* Pop-up effect */
+      .pop-up {
+        animation: pop 0.3s ease;
+      }
+      @keyframes pop {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      /* Sticky navigation */
+      .sticky-nav {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        /* background-color: #f9f9f9; */
+        /* border-bottom: 2px solid #000; */
+      }
+    </style>
+  </head>
+  <body
+    x-data="{ activeSection: 'intro', isScrolled: false }"
+    @scroll.window="isScrolled = window.scrollY > 50"
+    :class="{ 'scrolled': isScrolled }"
+  >
+    <!-- nav -->
+    <div
+      class="bg-violet-300 border-b-2 border-solid border-black flex relative py-2"
+    >
+      <!-- <img
+          src="https://picsum.photos/300/100"
+          alt=""
+          class="block w-1/2 mx-auto h-full w-auto"
+        /> -->
+      <div class="absolute flex items-center">
+        <ul class="ml-3 md:ml-6 flex gap-2 md:gap-12 transition-all">
+          <li>
+            <a href="../index.html">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="size-7 md:size-10 hover:fill-fuchsia-700 fill-fuchsia-900"
+              >
+                <path
+                  d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z"
+                />
+                <path
+                  d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z"
+                />
+              </svg>
+            </a>
+          </li>
+          <li @click="modalIsOpen = true" type="button">
+            <a href="menu.html">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="size-7 md:size-10 hover:fill-fuchsia-700 fill-fuchsia-900"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <p
+        class="text-fuchsia-900 text-center text-xl md:text-3xl font-medium tracking-wide block w-1/2 mx-auto"
+        style="font-family: 'Bricolage Grotesque', sans-serif"
+        ;
+      >
+        Catatan Lumi
+      </p>
+    </div>
+
+    <div class="max-w-3xl mx-auto" x-data="studentOutputApp">
+      <!-- Sticky Navigation -->
+      <nav class="sticky-nav py-4">
+        <div class="flex justify-center space-x-4">
+          <button
+            x-show="studentData.code !== '903'"
+            @click="activeSection = 'intro'; $el.classList.add('pop-up'); setTimeout(() => $el.classList.remove('pop-up'), 300)"
+            :class="{ 'bg-yellow-400': activeSection === 'intro' }"
+            class="neo-brutalism-btn px-4 py-2 rounded-lg"
+          >
+            Luas Segitiga Siku-siku
+          </button>
+          <button
+            @click="activeSection = 'cavalieri'; $el.classList.add('pop-up'); setTimeout(() => $el.classList.remove('pop-up'), 300)"
+            :class="{ 'bg-yellow-400': activeSection === 'cavalieri' }"
+            class="neo-brutalism-btn px-4 py-2 rounded-lg"
+          >
+            Prinsip Cavalieri
+          </button>
+          <button
+            @click="activeSection = 'sebarang'; $el.classList.add('pop-up'); setTimeout(() => $el.classList.remove('pop-up'), 300)"
+            :class="{ 'bg-yellow-400': activeSection === 'sebarang' }"
+            class="neo-brutalism-btn px-4 py-2 rounded-lg"
+          >
+            Cara kreatif Lain
+          </button>
+          <button
+            x-show="studentData.code === '903'"
+            @click="activeSection = 'geogebra'; $el.classList.add('pop-up'); setTimeout(() => $el.classList.remove('pop-up'), 300)"
+            :class="{ 'bg-yellow-400': activeSection === 'geogebra' }"
+            class="neo-brutalism-btn px-4 py-2 rounded-lg"
+          >
+            GeoGebra
+          </button>
+        </div>
+      </nav>
+
+      <!-- Content Sections -->
+      <div class="neo-brutalism p-6 mt-8">
+        <!-- Luas Segitiga Siku-siku Section -->
+        <div x-show="activeSection === 'intro'" class="space-y-4">
+          <h2 class="text-2xl font-bold">
+            Luas Segitiga Siku-siku: Hanya Setengah Persegi Panjang
+          </h2>
+          <p class="text-lg">
+            Bayangkan sebuah persegi panjang yang dibagi menjadi dua bagian
+            dengan garis diagonal. Setiap bagian adalah segitiga siku-siku!
+            Karena segitiga hanya menempati setengah dari persegi panjang.
+          </p>
+          <p>Perhatikan gambar di bawah</p>
+          <img
+            src="https://mathcentral.uregina.ca/QQ/database/QQ.09.11/h/panny1.1.gif"
+            alt=""
+            width="200"
+          />
+          <p>Luas persegi panjang di atas \(L = p \times l = 3 \times 4\)</p>
+          <p>Luas segitiga berarti setengah luas persegi panjang, atau</p>
+          <p class="text-lg">
+            \[ \text{Luas} = \frac{1}{2} \times \text{luas persegi panjang} \]
+          </p>
+          <p class="text-lg">
+            \[ \text{Luas} = \frac{1}{2} \times \text{alas} \times \text{tinggi}
+            \]
+          </p>
+          <p class="text-lg">Sehingga</p>
+          <p class="text-lg">
+            \[ \text{Luas} = \frac{1}{2} \times 3 \times 4 = 6 \ \text{satuan}^2
+            \]
+          </p>
+          <p class="text-lg">Mudah, bukan?</p>
+        </div>
+
+        <!-- Prinsip Cavalieri Section -->
+        <div x-show="activeSection === 'cavalieri'" class="space-y-4">
+          <h2 class="text-2xl font-bold">
+            Berkenalan dengan Prinsip Cavalieri
+          </h2>
+          <p class="text-lg">
+            Sebenarnya, tanpa disadari, kamu sudah belajar prinsip Cavalieri
+            saat mencoba menghitung luas segitiga yang tidak beraturan.
+            Misalnya, ketika menggeser titik puncak pada segitiga lancip atau
+            tumpul, kamu sedang menggunakan prinsip Cavalieri untuk "mengubah"
+            segitiga menjadi segitiga siku-siku tanpa mengubah luas.
+          </p>
+          <p>Perhatikan gambar di bawah</p>
+          <img src="../assets/image.png" alt="" width="400" />
+          <p>
+            Trik menggeser yang kita lakukan di Taman Eksplorasi dan Penemuan
+            didasari prinsip Cavalieri!
+          </p>
+
+          <!-- Siapa Cavalieri? -->
+          <h3 class="text-xl font-bold mt-6">Siapa Cavalieri?</h3>
+          <img
+            src="https://cdn.britannica.com/93/134193-050-A5D230ED/Bonaventura-Cavalieri-statue-courtyard-Milan-Palazzo-di.jpg?w=300"
+            alt=""
+          />
+          <p class="text-lg">
+            Bonaventura Cavalieri adalah seorang matematikawan Italia dari abad
+            ke-17. Ia terkenal karena prinsip Cavalieri, yang digunakan untuk
+            menghitung volume dan luas. Prinsip ini menjadi dasar dari banyak
+            konsep dalam matematika modern, termasuk integral. Dengan memahami
+            prinsip ini, kamu sedang belajar cara berpikir seperti seorang
+            matematikawan hebat!
+          </p>
+        </div>
+
+        <!-- Segitiga Sebarang Section -->
+        <div x-show="activeSection === 'sebarang'" class="space-y-4">
+          <h2 class="text-2xl font-bold">
+            Cara Kreatif Mencari Luas Segitiga Sebarang
+          </h2>
+          <p class="text-lg">
+            Segitiga sebarang, yang tidak memiliki sudut siku-siku, juga bisa
+            dihitung dengan cara kreatif. Salah satu caranya adalah membagi
+            segitiga tersebut menjadi dua segitiga kecil yang lebih sederhana.
+            Kita dapat menggambar garis tinggi dari salah satu sudut ke sisi
+            yang berlawanan, membentuk dua segitiga siku-siku.
+          </p>
+          <p>Perhatikan gambar di bawah</p>
+          <img
+            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhoI5Js6sUPIED8travqITCnamSKEBhl-SAw18vAILjf_65gsWuW1Ud7C0X_y_mGdP5KsXoM8rZI0Sc22p2SC4dU-WL4Upc1yv8bTdnshELmoo9dKxxAs049xPQjuQEMfh6gVMlHeTCA53l/s1600/Triangle-Understanding5-Wikipedia.png"
+            alt=""
+            width="400"
+          />
+          <p>
+            Kemungkinan lain juga bisa selesaikan dengan "mengurangi" dua luas
+            segitiga
+          </p>
+          <img src="../assets/pengurangan.png" alt="" width="400" />
+          <p class="text-lg">
+            Setelah membagi segitiga, hitung luas masing-masing segitiga kecil
+            dengan rumus \( \frac{1}{2} \times \text{alas} \times \text{tinggi}
+            \), lalu jumlahkan kedua luas tersebut. Dengan cara ini, segitiga
+            sebarang menjadi lebih mudah dipahami dan dihitung.
+          </p>
+        </div>
+
+        <!-- GeoGebra Section -->
+        <div x-show="activeSection === 'geogebra'" class="space-y-4">
+          <h2 class="text-2xl font-bold">Membuat Segitiga di GeoGebra</h2>
+          <p>Kunjungi Web Geogebra dibawah</p>
+          <a
+            target="_blank"
+            class="text-blue-400 underline"
+            href="https://geogebra.org/classic"
+            >Geogebra Classic Web</a
+          >
+          <p class="text-lg">
+            Kamu bisa mengkontruksi tinggi segitiga di GeoGebra, Ikuti
+            langkah-langkah berikut untuk mencoba:
+          </p>
+          <ol class="list-decimal list-inside text-lg">
+            <li><strong>Buka GeoGebra</strong> dan pilih alat "Poligon".</li>
+            <li>
+              Klik di tiga titik pada area kerja untuk membuat tiga sudut
+              segitiga.
+            </li>
+            <li>
+              Hubungkan titik-titik tersebut dengan memilih alat "Segitiga" atau
+              "Poligon".
+            </li>
+            <li>
+              Untuk menambahkan garis tinggi, pilih alat "Garis Tegak Lurus" dan
+              buat garis dari salah satu sudut ke sisi yang berlawanan.
+            </li>
+          </ol>
+          <p>Berikut video singkat cara membuatnya</p>
+          <div
+            style="
+              left: 0;
+              width: 100%;
+              height: 0;
+              position: relative;
+              padding-bottom: 56.25%;
+            "
+          >
+            <iframe
+              src="https://drive.google.com/file/d/1h4Fb184NAEiNN4bpLgyp120h2aefgUmL/preview"
+              style="
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                border: 0;
+              "
+              allowfullscreen
+              scrolling="no"
+              allow="encrypted-media;"
+            ></iframe>
+          </div>
+          <p class="text-lg">
+            GeoGebra akan membantu kamu melihat bentuk segitiga dengan lebih
+            jelas, bahkan menghitung luasnya secara otomatis. Cobalah untuk
+            membuat berbagai jenis segitiga, seperti segitiga siku-siku, lancip,
+            atau tumpul, dan pelajari perbedaannya!
+          </p>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.addEventListener("alpine:init", () => {
+        Alpine.data("studentOutputApp", () => ({
+          studentData: null,
+          init() {
+            // Load the data from localStorage
+            const data = JSON.parse(localStorage.getItem("studentData"));
+            this.studentData = data || null;
+          },
+        }));
+      });
+    </script>
+  </body>
+</html>

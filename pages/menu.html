@@ -300,7 +300,7 @@
             </p>
           </a>
           <a
-            href="catatan.html"
+            href="../pages/catatan.html"
             target="_blank"
             class="overflow-hidden relative font-extrabold group w-full border-2 border-black bg-cyan-300 hover:bg-white h-1/2 rounded-xl p-6 content-center transition-all text-violet-900"
           >
@@ -382,88 +382,6 @@
           this.studentData = data || null;
         },
       }));
-    });
-  </script>
-  <script>
-    const inputField = document.getElementById("inputText");
-    const responseContainer = document.getElementById("response");
-    const submitButton = document.getElementById("submitButton");
-    const chatInput = document.getElementById("chatInput");
-    const resetContainer = document.getElementById("resetContainer");
-    const resetButton = document.getElementById("resetButton");
-
-    submitButton.addEventListener("click", async function () {
-      const userMessage = inputField.value.trim();
-      if (!userMessage) return;
-
-      // Add user message to chat
-      const userMessageElement = document.createElement("div");
-      userMessageElement.className = "message user";
-      userMessageElement.textContent = userMessage;
-      responseContainer.appendChild(userMessageElement);
-
-      // Hide input and button
-      chatInput.style.display = "none";
-
-      // Add bot "typing" placeholder
-      const botMessageElement = document.createElement("div");
-      botMessageElement.className = "message bot";
-      botMessageElement.textContent = "Lumi sedang berpikir...";
-      responseContainer.appendChild(botMessageElement);
-
-      // Scroll to the bottom
-      responseContainer.scrollTop = responseContainer.scrollHeight;
-
-      try {
-        const apiKey = "AIzaSyBf-jnhFiKp6c0diEW-npxGCjOg1Sl41Do"; // Replace with your actual API key
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
-
-        const requestBody = {
-          contents: [
-            {
-              parts: [
-                {
-                  text: `Kamu akan bertindak sebagai Miko, asisten virtual anak, responmu terbatas pada topik tentang luas segitiga khususnya metode shearing, jika ada request lain, tolong arahkan ke luas segitiga, berikut isi rangkuman anak, hasil:${userMessage},berdasarkan hal tersebut, buatkan umpan balik singkat, tanpa menyapa, jangan menggunakan markdown, di akhir, tambahkan kalimat "Mintalah umpan balik langsung dari guru untuk meningkatkan pemahamanmu!. JIKA ADA ANAK BERTANYA, JANGAN DIBERIKAN JAWABANNYA"`,
-                },
-              ],
-            },
-          ],
-        };
-
-        const response = await fetch(apiUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(requestBody),
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const responseData = await response.json();
-        const candidates = responseData.candidates || [];
-        const output =
-          candidates.length > 0
-            ? candidates[0].content.parts.map((part) => part.text).join("\n")
-            : "No candidates found in the response.";
-
-        // Update bot message with actual API response
-        botMessageElement.textContent = output;
-      } catch (error) {
-        botMessageElement.textContent = `Error: ${error.message}`;
-      }
-
-      // Show reset button
-      resetContainer.style.display = "flex";
-    });
-
-    resetButton.addEventListener("click", function () {
-      // Clear the chat and reset input
-      responseContainer.innerHTML =
-        '<div class="message bot">Ceritakan apa yang sudah kamu pelajari! Miko akan memberikan umpan balik yang menyenangkan untuk membantu kamu lebih paham</div>';
-      chatInput.style.display = "flex";
-      inputField.value = "";
-      resetContainer.style.display = "none";
     });
   </script>
 </html>
