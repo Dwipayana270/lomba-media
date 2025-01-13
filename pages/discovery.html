@@ -124,7 +124,7 @@
               <!-- Previous button -->
               <span
                 @click="if(step==2){executeCommand(baseChoice)}; if(step==1){randomize}; if(step==3){return isConclusion=true}"
-                class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-yellow-500 px-3 py-1 text-xl transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
+                class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-yellow-500 p-1 text-md transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
                 x-text="step === 1 ? 'Acak' : step === 2 ? 'Rotasi' : 'Bandingkan'"
               >
                 acak </span
@@ -208,7 +208,7 @@
           <div class="mt-6 grid place-content-center">
             <button
               class="rounded-md bg-black"
-              onclick="ggbApplet.evalCommand(`ZoomIn(-1, -1, If(x(B') > x(C'), x(B') + 1, x(C') + 1), If(x(B') > x(C'), x(B') + 1, x(C') + 1))`)"
+              onclick="ggbApplet.evalCommand(`ZoomIn(If(x(C') > x(A'), -x(C') - 1, -x(A') - 1), If(x(C') > x(A'), -x(C') - 1, -x(A') - 1), If(x(B') > x(C'), x(B') + 1, x(C') + 1), If(x(B') > x(C'), x(B') + 1, x(C') + 1))`)"
               @click="step+=1;if(step==2){executeCommand(baseChoice)}; if(step==2){ggbApplet.evalCommand(`SetFixed(C'', true)`)}; if(step==3){ggbApplet.evalCommand(`SetFixed(C'', false)`)};if(step==3){ggbApplet.setVisible('j', true)};if(step==3){ggbApplet.setVisible(`a'`, true)};if(step==3){ggbApplet.setVisible(`b'`, true)};if(step==3){ggbApplet.setVisible(`c'`, true)};if(step==3){ggbApplet.setVisible(`C''`, true);}"
               x-show="isSelectTriangle && step<3"
             >
