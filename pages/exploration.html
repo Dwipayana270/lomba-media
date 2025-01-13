@@ -81,16 +81,13 @@
         <div
           class="items-center overflow-hidden relative bg-indigo-100 flex h-1/2 w-full flex-row lg:h-full lg:w-1/2 lg:flex-col border-solid border-2 border-black rounded-3xl"
         >
-          <div
-            class="h-full flex-auto lg:h-3/5 lg:w-full p-4 grid place-content-center"
-          >
+          <div class="h-full mx-auto mt-6">
             <p class="text-md font-bold mb-2 text-violet-800">
               Gerakkan titik biru 🔵
             </p>
             <!-- GeoGebra Applet -->
-            <div class="w-60 h-60 md:h-80 md:w-80 lg:h-96 lg:w-96 relative">
-              <div id="ggbApplet"></div>
-            </div>
+            <!-- <div id="ggbApplet" class="aspect-square"></div> -->
+            <div class="bg-black aspect-square" id="ggbApplet"></div>
           </div>
         </div>
 
@@ -99,20 +96,16 @@
           class="bg-rose-50 border-solid border-2 border-black rounded-3xl relative h-1/2 w-full px-8 pt-4 lg:h-full lg:w-1/2 mt-6 lg:m-0"
         >
           <p
-            class="text-base mb-2 font-bold"
-            x-text="`Hai ${studentData.name}, bagaimana perasaanmu di Taman Penemuan sebelumnya?`"
+            class="mb-6"
+            x-text="`Selamat datang di Taman Eksplorasi ${studentData.name}. Cobalah hubungkan hasil
+            penemuanmu di Taman Penemuan dengan eksplorasi di Taman Eksplorasi
+            ini. Gunakan fitur bantuan di bawah`"
           ></p>
-          <p>
-            Selamat datang di Taman Eksplorasi, di sini kamu bisa melihat semua
-            kemungkinan tinggi segitiga. Cobalah hubungkan hasil penemuanmu di
-            Taman Penemuan dengan eksplorasi di Taman Eksplorasi ini. Gunakan
-            fitur bantuan di bawah
-          </p>
           <div
-            class="px-16 md:px-6 max-w-96 mx-auto h-36 lg:h-60 mt-3 lg:mt-8 rounded-xl"
+            class="md:px-6 max-w-96 mx-auto mt-3 lg:mt-8 flex flex-row md:flex-col gap-2"
           >
             <button
-              class="rounded-md bg-black w-full mb-4"
+              class="rounded-md bg-black w-full"
               x-data="{toggle: true}"
               @click="
               ggbApplet.evalCommand(`SetConditionToShowObject(f_{2}, ${toggle})`);
@@ -126,8 +119,8 @@
               toggle = !toggle"
             >
               <span
-                class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-violet-100 px-5 py-3 text-xl transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
-                x-text="!toggle? '🫣 segitiga siku-siku': '👀 segitiga siku-siku'"
+                class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-violet-100 px-5 py-3 text-base transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
+                x-text="!toggle? '🫣 Segitiga': '👀 Segitiga'"
               >
               </span>
             </button>
@@ -139,8 +132,8 @@
               <!-- Previous button -->
               <span
                 @click=""
-                class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-violet-100 px-5 py-3 text-xl transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
-                x-text="!toggle? '🫣 Sembunyikan Garis Bantu': '👀 Tampilkan garis bantu'"
+                class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-violet-100 px-5 py-3 text-base transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
+                x-text="!toggle? '🫣 Garis Bantu': '👀 garis bantu'"
               >
                 acak </span
               ><!-- Add this ! -->
@@ -149,7 +142,8 @@
         </div>
       </div>
     </div>
-    <script>
+    <!-- Geogebra applet resizing -->
+    <!-- <script>
       // Select the parent container
       const parentElement = document.querySelector(".w-60.h-60");
 
@@ -174,12 +168,13 @@
 
       // Optional: Handle window resize to update parameters dynamically
       window.addEventListener("resize", updateParametersSize);
-    </script>
+    </script> -->
+    <script></script>
     <script>
       var parameters = {
         id: "ggbApplet",
-        width: 600,
-        height: 600,
+        width: `300`,
+        height: `300`,
         showMenuBar: false,
         showAlgebraInput: false,
         showToolBar: false,

@@ -408,28 +408,6 @@
               this.showUnanswered = false; // Reset the unanswered highlighting
               this.feedbackMessage = "";
             },
-            calculateScore() {
-              this.score = this.questions.reduce((acc, question, index) => {
-                return (
-                  acc +
-                  (this.selectedAnswers[index] === question.correctAnswer
-                    ? 1
-                    : 0)
-                );
-              }, 0);
-            },
-            generateFeedback() {
-              const percentage = (this.score / this.questions.length) * 100;
-              if (percentage >= 80) {
-                this.feedbackMessage = "Great job! You did excellent!";
-              } else if (percentage >= 60) {
-                this.feedbackMessage =
-                  "Good job! You did well, but there is room for improvement.";
-              } else {
-                this.feedbackMessage =
-                  "Keep practicing! You can do better next time.";
-              }
-            },
             getFeedback(index) {
               const template = document.getElementById(
                 `feedback-template-${index}`
@@ -450,7 +428,7 @@
               }
             },
             init() {
-              // Remove specific question based on studentData.code
+              // Remove specific question and feedback template based on studentData.code
               const codeToIndexMap = {
                 901: 3,
                 902: 3,
@@ -458,8 +436,38 @@
               };
               const indexToRemove = codeToIndexMap[this.studentData.code];
               if (indexToRemove !== undefined) {
+                // Remove the question
                 this.questions.splice(indexToRemove, 1);
+
+                // Remove the corresponding feedback template
+                const feedbackTemplate = document.getElementById(
+                  `feedback-template-${indexToRemove}`
+                );
+                if (feedbackTemplate) {
+                  feedbackTemplate.remove();
+                }
+
+                // Reindex the remaining feedback templates
+                this.reindexFeedbackTemplates(indexToRemove);
               }
+            },
+            reindexFeedbackTemplates(removedIndex) {
+              // Get all feedback templates
+              const feedbackTemplates = document.querySelectorAll(
+                "template[id^='feedback-template-']"
+              );
+
+              // Iterate through the templates and reindex them
+              feedbackTemplates.forEach((template) => {
+                const id = template.id;
+                const currentIndex = parseInt(id.split("-")[2], 10); // Extract the index from the ID
+
+                // If the current index is greater than the removed index, decrement it
+                if (currentIndex > removedIndex) {
+                  const newIndex = currentIndex - 1;
+                  template.id = `feedback-template-${newIndex}`; // Update the ID
+                }
+              });
             },
           };
         }
