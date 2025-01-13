@@ -168,21 +168,21 @@
             x-show="studentData.code !== '903'"
             @click="activeSection = 'intro'; $el.classList.add('pop-up'); setTimeout(() => $el.classList.remove('pop-up'), 300)"
             :class="{ 'bg-yellow-400': activeSection === 'intro' }"
-            class="neo-brutalism-btn px-4 py-2 rounded-lg"
+            class="neo-brutalism-btn p-1 rounded-lg"
           >
             Luas Segitiga Siku-siku
           </button>
           <button
             @click="activeSection = 'cavalieri'; $el.classList.add('pop-up'); setTimeout(() => $el.classList.remove('pop-up'), 300)"
             :class="{ 'bg-yellow-400': activeSection === 'cavalieri' }"
-            class="neo-brutalism-btn px-4 py-2 rounded-lg"
+            class="neo-brutalism-btn p-1 rounded-lg"
           >
             Prinsip Cavalieri
           </button>
           <button
             @click="activeSection = 'sebarang'; $el.classList.add('pop-up'); setTimeout(() => $el.classList.remove('pop-up'), 300)"
             :class="{ 'bg-yellow-400': activeSection === 'sebarang' }"
-            class="neo-brutalism-btn px-4 py-2 rounded-lg"
+            class="neo-brutalism-btn p-1 rounded-lg"
           >
             Cara kreatif Lain
           </button>
