@@ -162,7 +162,10 @@
 
     <div class="max-w-3xl mx-auto" x-data="studentOutputApp">
       <!-- Sticky Navigation -->
-      <nav class="sticky-nav py-4">
+      <nav
+        class="sticky-nav py-4"
+        x-init="activeSection = studentData.code == '903'?'cavalieri': 'intro'"
+      >
         <div class="flex justify-center space-x-4">
           <button
             x-show="studentData.code !== '903'"
