@@ -75,13 +75,13 @@
       <!-- area -->
       <div
         x-data="studentData"
-        class="transparent container mx-auto flex-1 px-6 lg:flex lg:px-16 mb-12 lg:mb-32 gap-6"
+        class="transparent container mx-auto flex-1 px-6 lg:flex lg:px-16 mb-12 lg:mb-32 gap-8"
       >
         <!-- left section -->
         <div
           class="items-center overflow-hidden relative bg-indigo-100 flex h-1/2 w-full flex-row lg:h-full lg:w-1/2 lg:flex-col border-solid border-2 border-black rounded-3xl"
         >
-          <div class="h-full mx-auto mt-6">
+          <div class="h-full mx-auto mt-4">
             <p class="text-md font-bold mb-2 text-violet-800">
               Gerakkan titik biru 🔵
             </p>
@@ -97,7 +97,7 @@
         >
           <p
             class="mb-6"
-            x-text="`Selamat datang di Taman Eksplorasi ${studentData.name}. Cobalah hubungkan hasil
+            x-text="`Selamat datang di Taman Eksplorasi ${studentData.name? studentData.name : ''}. Cobalah hubungkan hasil
             penemuanmu di Taman Penemuan dengan eksplorasi di Taman Eksplorasi
             ini. Gunakan fitur bantuan di bawah`"
           ></p>
@@ -119,7 +119,7 @@
               toggle = !toggle"
             >
               <span
-                class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-violet-100 px-5 py-3 text-base transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
+                class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-violet-100 px-2 py-2 text-base transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
                 x-text="!toggle? '🫣 Segitiga': '👀 Segitiga'"
               >
               </span>
@@ -132,7 +132,7 @@
               <!-- Previous button -->
               <span
                 @click=""
-                class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-violet-100 px-5 py-3 text-base transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
+                class="block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-violet-100 py-2 text-base transition-all hover:-translate-y-2 active:translate-x-0 active:translate-y-0"
                 x-text="!toggle? '🫣 Garis Bantu': '👀 garis bantu'"
               >
                 acak </span
