@@ -83,13 +83,13 @@
         <!-- left section -->
 
         <div
-          class="bg-indigo-100 flex h-1/2 w-full flex-row lg:h-full lg:w-1/2 lg:flex-col border-solid border-2 border-black rounded-3xl"
+          class="bg-indigo-100 flex h-1/2 w-full flex-row lg:h-full lg:w-1/2 lg:flex-col border-solid border-2 border-black rounded-3xl py-4"
         >
           <div
-            class="h-full w-2/5 flex-auto lg:h-3/5 lg:w-full p-4 grid place-content-center"
+            class="h-full w-2/5 flex-auto lg:w-full grid place-content-center pt-4"
           >
             <p
-              class="text-md font-bold mb-2 text-violet-800 mt-3 text-center"
+              class="text-md font-bold mb-4 text-violet-800 text-center"
               x-text="(() => {
         switch (step) {
             case 1:
@@ -103,7 +103,7 @@
         }
     })()"
             ></p>
-            <div class="ml-2">
+            <div class="mb-4">
               <!-- GeoGebra Applet -->
               <div
                 @click="isSelectTriangle=true; if(step==3){isMove=true}"
@@ -208,7 +208,7 @@
           <div class="mt-6 grid place-content-center">
             <button
               class="rounded-md bg-black"
-              onclick="ggbApplet.evalCommand(`ZoomIn(If(x(C') > x(A'), -x(C') - 1, -x(A') - 1), If(x(C') > x(A'), -x(C') - 1, -x(A') - 1), If(x(B') > x(C'), x(B') + 1, x(C') + 1), If(x(B') > x(C'), x(B') + 1, x(C') + 1))`)"
+              onclick="ggbApplet.evalCommand(`ZoomIn(Min(x(A'), x(C'))-2, -3, Max(x(B'), x(C'))+2, (Max(x(B'), x(C')) -  Min(x(A'), x(C'))+1))`)"
               @click="step+=1;if(step==2){executeCommand(baseChoice)}; if(step==2){ggbApplet.evalCommand(`SetFixed(C'', true)`)}; if(step==3){ggbApplet.evalCommand(`SetFixed(C'', false)`)};if(step==3){ggbApplet.setVisible('j', true)};if(step==3){ggbApplet.setVisible(`a'`, true)};if(step==3){ggbApplet.setVisible(`b'`, true)};if(step==3){ggbApplet.setVisible(`c'`, true)};if(step==3){ggbApplet.setVisible(`C''`, true);}"
               x-show="isSelectTriangle && step<3"
             >
